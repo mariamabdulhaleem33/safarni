@@ -6,6 +6,8 @@ import WelcomePage from "@/pages/auth/welcome/WelcomePage";
 import LoginPage from "@/pages/auth/login/LoginPage";
 import ForgotPassword from "@/pages/password-management/ForgotPassword";
 import OTPVerification from "@/pages/password-management/OTPVerification";
+import FlightBooking from "@/pages/flight-booking/FlightBooking";
+import SeatBookingPage from "@/pages/flight-booking/SeatBookingPage";
 
 export default function AppRoutes() {
   return (
@@ -42,6 +44,8 @@ export default function AppRoutes() {
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/otp-verify" element={<OTPVerification />} />
+      <Route path="/flight-booking" element={<FlightBooking />} />
+      <Route path="/seat-booking" element={<SeatBookingPage />} />
     </Routes>
   );
 }
