@@ -6,7 +6,7 @@ import AppRoutes from "./routes";
 const App = () => {
   return (
     <BrowserRouter>
-    <AppRoutes />
+      <AppRoutes />
       {/* <Search />  */}
       {/* <PaymentPage /> */}
     </BrowserRouter>

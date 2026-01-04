@@ -1,9 +1,11 @@
-import { Route, Routes } from "react-router-dom"
-import { MainLayout } from "../components/layout/MainLayout"
-import { Home } from "../pages/home/Home"
-import SignUpPage from "@/pages/auth/signup/SignUpPage"
-import WelcomePage from "@/pages/auth/welcome/WelcomePage"
-import LoginPage from "@/pages/auth/login/LoginPage"
+import { Route, Routes } from "react-router-dom";
+import { MainLayout } from "../components/layout/MainLayout";
+import { Home } from "../pages/home/Home";
+import SignUpPage from "@/pages/auth/signup/SignUpPage";
+import WelcomePage from "@/pages/auth/welcome/WelcomePage";
+import LoginPage from "@/pages/auth/login/LoginPage";
+import ForgotPassword from "@/pages/password-management/ForgotPassword";
+import OTPVerification from "@/pages/password-management/OTPVerification";
 
 export default function AppRoutes() {
   return (
@@ -38,6 +40,8 @@ export default function AppRoutes() {
       <Route path="/welcome" element={<WelcomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/otp-verify" element={<OTPVerification />} />
     </Routes>
-  )
+  );
 }
