@@ -13,6 +13,7 @@ import NewPassword from "@/pages/password-management/NewPassword";
 import Success from "@/components/ui/Success";
 import HotelPage from "@/pages/hotel/HotelPage";
 import HotelAboutPage from "@/pages/hotel/HotelAboutPage";
+import { Favorites } from "@/pages/favourite/Favorites";
 import { Provider } from "react-redux";
 import { store } from "@/store";
 import PaymentPage from "@/components/checkout/PaymentPage";
@@ -22,34 +23,31 @@ import ErrorPage from "@/components/checkout/pages/ErrorPage";
 export default function AppRoutes() {
   return (
     <Provider store={store}>
-    <Routes>
-      <Route path="/" element={<MainLayout />}>
-        <Route index element={<Home />} />
-        <Route
-          path="favorite"
-          element={
-            <div className="pt-[110px] p-8">
-              <h1>Favorite Page</h1>
-            </div>
-          }
-        />
-        <Route
-          path="compare"
-          element={
-            <div className="pt-[110px] p-8">
-              <h1>Compare Page</h1>
-            </div>
-          }
-        />
-        <Route
-          path="maps"
-          element={
-            <div className="pt-[110px] p-8">
-              <h1>Maps Page</h1>
-            </div>
-          }
-        />
-        <Route path="payment" element={<PaymentPage />} />
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<Home />} />
+          <Route
+            path="favorite"
+            element={<Favorites />
+            }
+          />
+          <Route
+            path="compare"
+            element={
+              <div className="pt-[110px] p-8">
+                <h1>Compare Page</h1>
+              </div>
+            }
+          />
+          <Route
+            path="maps"
+            element={
+              <div className="pt-[110px] p-8">
+                <h1>Maps Page</h1>
+              </div>
+            }
+          />
+          <Route path="payment" element={<PaymentPage />} />
           <Route path="payment/success" element={<SuccessPage />} />
           <Route path="payment/error" element={<ErrorPage />} />
       </Route>
