@@ -1,4 +1,5 @@
 import CardShape from "./CardShape";
+import cardImage from "../../assets/checkout/card_image.png";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
@@ -22,15 +23,15 @@ export default function PaymentPage() {
     setIsConfirmed(true);
   };
   return (
-    <section>
-      <div className="max-w-310 mx-auto p-6 ">
+    <section className="mt-30 mb-10">
+      <div className="max-w-310 mx-auto p-6">
         <BackIcon url="#" />
         <div className="grid md:grid-cols-2 gap-8">
-          <CardShape />
+          <CardShape img={cardImage} />
           <div
             className={`h-183.5 w-full flex flex-col ${
               isConfirmed ? "justify-start" : "justify-between"
-            } gap-8 w-full py-2 px-10 font-sans`}
+            } gap-8 w-full py-2 px-3 md:px-10 font-sans`}
           >
             {/* Select Payment Method */}
             <MethodSelector

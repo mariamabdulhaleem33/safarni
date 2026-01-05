@@ -14,10 +14,10 @@ import {
 } from "../schemas/paymentSchema";
 import { Calendar, Mail, User } from "lucide-react";
 import ErrorMessage from "../ErrorMessage";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Mastercard() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -30,7 +30,7 @@ function Mastercard() {
   const onSubmit = async (data: MasterCardData) => {
     console.log("Payment Confirmed:", data);
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    // navigate("/checkout/success");
+    navigate("/payment/success");
   };
 
   return (
