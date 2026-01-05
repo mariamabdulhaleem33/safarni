@@ -10,7 +10,7 @@ export const NavigationLinks = () => {
   ];
 
   return (
-    <nav className="flex items-center gap-8 lg:gap-16 w-auto lg:w-[525px] h-9">
+    <nav className="flex items-center gap-8 lg:gap-16 w-auto lg:w-131.25 h-9">
       {links.map((link) => {
         const isActive = location.pathname === link.path;
         return (
@@ -19,8 +19,8 @@ export const NavigationLinks = () => {
             to={link.path}
             className={`h-9 text-lg lg:text-2xl leading-none transition-colors inline-flex items-center font-poppins ${
               isActive
-                ? "text-[var(--color-primary-700)] font-semibold"
-                : "text-[var(--color-gray-900)] font-medium"
+                ? "text-primary-700 font-semibold"
+                : "text-gray-900 font-medium"
             }`}
           >
             {link.name}

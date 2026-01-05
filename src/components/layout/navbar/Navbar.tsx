@@ -15,9 +15,10 @@ export const Navbar = ({
   onFilterClick,
   onUserClick,
 }: NavbarProps) => {
+  
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 w-full h-[110px] bg-white">
-      <div className="max-w-[1440px] h-full mx-auto flex items-center justify-between px-4 sm:px-8 md:px-12 lg:px-[100px]">
+    <nav className="fixed top-0 left-0 right-0 z-50 w-full h-27.5 bg-white">
+      <div className="max-w-360 h-full mx-auto flex items-center justify-between px-4 sm:px-8 md:px-12 lg:px-25">
         <Logo />
         <NavigationLinks />
         <NavbarActions
