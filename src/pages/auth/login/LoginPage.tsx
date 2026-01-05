@@ -14,7 +14,7 @@ export default function LoginPage() {
         <AuthHeader variant="login" />
       </div>
 
-      <div className="absolute sm:top-15.5 sm:left-15.5  top-12 left-7 sm:text-[25px] text-[19px] lg:hidden block">
+      <div className="absolute sm:top-15.5 sm:left-15.5  top-12 left-7 sm:text-[20px] text-[19px] lg:hidden block">
         <Link to="/welcome">
           <SlArrowLeft />
         </Link>
@@ -28,7 +28,7 @@ export default function LoginPage() {
             <AuthHeading className="sm:text-[28px] text-[18px]">
               Welcome Again
             </AuthHeading>
-            <AuthDesc className="mt-3 sm:mt-4 sm:mb-6 mb-5 sm:text-[21px] text-[14px]">
+            <AuthDesc className="mt-3 sm:mt-4 sm:mb-6 mb-5 text-[15px]">
               welcome back! please fill your Data
             </AuthDesc>
           </div>

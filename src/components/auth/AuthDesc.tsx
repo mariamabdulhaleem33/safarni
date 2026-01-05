@@ -9,7 +9,7 @@ export default function AuthDesc({ className, children }: HeadingProps) {
   return (
     <p
       className={cn(
-        "font-poppins font-normal text-[21px] leading-[150%] tracking-normal text-center text-[#4B5563]",
+        "font-poppins font-normal text-[15px] leading-[150%] tracking-normal text-center text-[#4B5563]",
         className
       )}
     >

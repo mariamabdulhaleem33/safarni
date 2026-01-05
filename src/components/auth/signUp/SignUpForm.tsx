@@ -15,9 +15,7 @@ export default function SignUpForm() {
       <div className="w-full max-w-md bg-white text-left">
         <div className="hidden lg:block mb-2">
           <AuthHeading className="text-[28px]">Welcome Again</AuthHeading>
-          <AuthDesc className="text-[18px]">
-            welcome back! please fill your Data
-          </AuthDesc>
+          <AuthDesc>welcome back! please fill your Data</AuthDesc>
         </div>
         {/* Login Form */}
         <form>
