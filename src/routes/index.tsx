@@ -11,9 +11,14 @@ import SeatBookingPage from "@/pages/flight-booking/SeatBookingPage";
 import AuthLayout from "@/components/layout/AuthLayout";
 import NewPassword from "@/pages/password-management/NewPassword";
 import Success from "@/components/ui/Success";
+import HotelPage from "@/pages/hotel/HotelPage";
+import HotelAboutPage from "@/pages/hotel/HotelAboutPage";
+import { Provider } from "react-redux";
+import { store } from "@/store";
 
 export default function AppRoutes() {
   return (
+    <Provider store={store}>
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
@@ -54,6 +59,10 @@ export default function AppRoutes() {
       <Route path="/flight-booking" element={<FlightBooking />} />
       <Route path="/seat-booking" element={<SeatBookingPage />} />
       <Route path="/success" element={<Success />} />
+      <Route path="/hotel" element={<HotelPage />} />
+      <Route path="hotel/:hotelId" element={<HotelAboutPage />} />
+        <Route path="hotel/:hotelId/:tab" element={<HotelAboutPage />} />
     </Routes>
+    </Provider>
   );
 }
