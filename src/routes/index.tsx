@@ -21,6 +21,9 @@ import PaymentPage from "@/components/checkout/PaymentPage";
 import SuccessPage from "@/components/checkout/pages/SuccessPage";
 import ErrorPage from "@/components/checkout/pages/ErrorPage";
 
+import CarsPage from "@/pages/cars";
+import CarDetailsPage from "@/pages/cars/details";
+import PickUpPage from "@/pages/cars/pickup";
 export default function AppRoutes() {
   return (
     <Provider store={store}>
@@ -47,22 +50,25 @@ export default function AppRoutes() {
           <Route path="payment" element={<PaymentPage />} />
           <Route path="payment/success" element={<SuccessPage />} />
           <Route path="payment/error" element={<ErrorPage />} />
-        </Route>
-        <Route path="/auth" element={<AuthLayout />}>
-          <Route path="welcome" element={<WelcomePage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="signup" element={<SignUpPage />} />
-          <Route index element={<Navigate to="forgot-password" replace />} />
-          <Route path="forgot-password" element={<ForgotPassword />} />
-          <Route path="otp-verify" element={<OTPVerification />} />
-          <Route path="new-password" element={<NewPassword />} />
-        </Route>
-        <Route path="/flight-booking" element={<FlightBooking />} />
-        <Route path="/seat-booking" element={<SeatBookingPage />} />
-        <Route path="/success" element={<Success />} />
-        <Route path="/hotel" element={<HotelPage />} />
-        <Route path="hotel/:hotelId" element={<HotelAboutPage />} />
-        <Route path="hotel/:hotelId/:tab" element={<HotelAboutPage />} />
+      </Route>
+      <Route path="/welcome" element={<WelcomePage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<SignUpPage />} />
+      <Route path="/auth" element={<AuthLayout />}>
+        <Route index element={<Navigate to="forgot-password" replace />} />
+        <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="otp-verify" element={<OTPVerification />} />
+        <Route path="new-password" element={<NewPassword />} />
+      </Route>
+      <Route path="/flight-booking" element={<FlightBooking />} />
+      <Route path="/seat-booking" element={<SeatBookingPage />} />
+      <Route path="/success" element={<Success />} />
+      <Route path="/hotel" element={<HotelPage />} />
+      <Route path="hotel/:hotelId" element={<HotelAboutPage />} />
+      <Route path="hotel/:hotelId/:tab" element={<HotelAboutPage />} />
+      <Route path="/cars" element={<CarsPage />} />
+      <Route path="/cars/:id" element={<CarDetailsPage />} />
+      <Route path="/cars/:id/pick-up" element={<PickUpPage />} />
       </Routes>
     </Provider>
   )
