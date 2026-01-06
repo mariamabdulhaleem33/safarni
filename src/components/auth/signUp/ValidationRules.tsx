@@ -1,10 +1,18 @@
 import Rule from "./Rule"
-
-export default function ValidationRules() {
+type ValidationRulesProps = {
+  isPasswordError: boolean
+}
+export default function ValidationRules({
+  isPasswordError,
+}: ValidationRulesProps) {
   return (
-    <div className="mb-6 ">
-      <Rule>must be at least 8 characters</Rule>
-      <Rule>must contain one special character</Rule>
+    <div className={`mb-6 space-y-1`}>
+      <Rule isPasswordError={isPasswordError}>
+        must be at least 8 characters
+      </Rule>
+      <Rule isPasswordError={isPasswordError}>
+        must contain one special character
+      </Rule>
     </div>
   )
 }

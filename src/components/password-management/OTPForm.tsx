@@ -19,6 +19,9 @@ const OTPForm: FC = () => {
     formState: { errors },
   } = useForm<OTPFormValues>({
     resolver: zodResolver(otpSchema),
+    defaultValues:{
+      otp: ""
+    }
   });
 
 
@@ -28,7 +31,7 @@ const OTPForm: FC = () => {
 
   const onSubmit = (data: OTPFormValues) => {
     console.log(data);
-    navigate("/new-password");
+    navigate("/auth/new-password");
   };
   return (
     <form

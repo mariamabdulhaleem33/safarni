@@ -23,6 +23,9 @@
   .auth-input {
     @apply w-full pl-12 pr-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm;
   }
+  .section-container {
+    @apply container max-w-full px-4 sm:px-8 md:px-12 lg:px-[100px];
+  }
 }
 
 body {
@@ -157,7 +160,7 @@ body {
     @apply bg-background text-foreground;
   }
   .auth-component-layout {
-    @apply flex flex-col items-center px-20 pb-10 pt-8;
+    @apply flex flex-col justify-center items-center px-20 pb-10 pt-8;
   }
   .auth-content-layout {
     @apply flex w-full flex-row items-center justify-between;

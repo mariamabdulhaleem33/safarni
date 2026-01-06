@@ -1,18 +1,11 @@
 import type { FC } from "react";
-import logo from "@/assets/Logo.png";
+import logo from "@/assets/SafarniLogo.png";
 
 type LogoProps = {
-  style: string;
-  width?: string;
+  style?: string;
 };
 
-const Logo: FC<LogoProps> = ({ style, width }) => {
-  return (
-    <img
-      className={`${style} ${width ? width : "w-[100px]"}`}
-      src={logo}
-      alt="Safarni Logo"
-    />
-  );
+const Logo: FC<LogoProps> = ({ style }) => {
+  return <img className={`${style}`} src={logo} alt="Safarni Logo" />;
 };
 export default Logo;
