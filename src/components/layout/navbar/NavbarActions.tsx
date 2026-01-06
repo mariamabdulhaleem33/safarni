@@ -1,5 +1,6 @@
 import { SearchIcon, FilterIcon } from "../../icons";
 import userImage from "../../../assets/user.png";
+import { useNavigate } from 'react-router-dom';
 
 interface NavbarActionsProps {
   userPhotoUrl?: string;
@@ -14,8 +15,10 @@ export const NavbarActions = ({
   onFilterClick,
   onUserClick,
 }: NavbarActionsProps) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="flex items-center gap-4 sm:gap-6 lg:gap-[40px] w-auto lg:w-[180px] h-10">
+    <div className="flex items-center gap-4 sm:gap-6 lg:gap-10 w-auto lg:w-45 h-10">
       <button
         onClick={onSearchClick}
         className="flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity"
@@ -31,8 +34,10 @@ export const NavbarActions = ({
         <FilterIcon />
       </button>
       <button
-        onClick={onUserClick}
-        className="flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity"
+        onClick={() => {
+          onUserClick?.();
+          navigate("/profile");
+        }} className="flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity"
         aria-label="User profile"
       >
         <img

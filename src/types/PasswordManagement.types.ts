@@ -5,3 +5,8 @@ export type ForgotPassFormData = {
 export type OTPFormValues = {
   otp: string;
 };
+
+export type NewPassFormData = {
+  newPassword: string;
+  confirmPassword: string;
+};

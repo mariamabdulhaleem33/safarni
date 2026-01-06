@@ -27,7 +27,7 @@ const ForgotPassForm: FC = () => {
     },
   });
   const onSubmit = (data: ForgotPassFormData) => {
-    navigate("/otp-verify", {
+    navigate("/auth/otp-verify", {
       state: {
         email: data.email,
       },
