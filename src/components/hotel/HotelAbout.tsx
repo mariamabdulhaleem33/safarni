@@ -25,7 +25,6 @@ const HotelAbout: React.FC<HotelAboutProps> = ({ hotel: propHotel }) => {
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6">
-      {/* القسم الأول: Rating - Bathtub - Phone */}
       <div className="flex flex-wrap justify-between items-center mb-6 pb-4 border-b border-gray-200">
         <div className="flex items-center space-x-2 mb-2 sm:mb-0">
           <FaBed className="w-5 h-5 text-yellow-500" />
@@ -62,7 +61,6 @@ const HotelAbout: React.FC<HotelAboutProps> = ({ hotel: propHotel }) => {
         </button>
       </div>
 
-      {/* القسم الثالث: About */}
       <div className="prose max-w-none">
         <h3 className="text-lg font-semibold text-gray-800 mb-3">
           About {hotel.name}

@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const ForgotPassword: FC = () => {
   return (
     <div className="auth-component-layout">
-      <Logo style="self-end" />
+      <Logo style="self-end"/>
       <div className="auth-content-layout">
         <div className="w-[50%] flex flex-col gap-4">
           <div className="w-fit rounded-full p-4 bg-gray-100">

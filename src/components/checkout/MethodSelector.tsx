@@ -9,28 +9,30 @@ const payment_methods = [
     id: "paypal",
     label: "Paypal",
     logo: paypal_image,
-    style: "text-[24px] font-medium text-[#4B5563]",
+    style: "text-[17px] md:text-[24px] font-medium text-[#4B5563]",
   },
   {
     id: "mastercard",
     label: "Mastercard",
     logo: mast_image,
-    style: "text-[24px] font-medium text-[#4B5563]",
+    style: "text-[17px] md:text-[24px] font-medium text-[#4B5563]",
   },
   {
     id: "visa",
     label: "Visa",
     logo: visa_image,
-    style: "text-[24px] font-medium text-[#4B5563]",
+    style: "text-[17px] md:text-[24px] font-medium text-[#4B5563]",
   },
 ];
 export const MethodSelector = ({ selectedValue, setSelectedValue }: Props) => (
   <div>
-    <h2 className="text-[26px] text-center font-medium text-[#111928] mb-8">
+    <h2 className="text-[20px] md:text-[26px] text-center font-medium text-[#111928] mb-8">
       Payment Method
     </h2>
     <div>
-      <p className="text-[#374151] text-[22px] mb-6">Add Your Payment Method</p>
+      <p className="text-[#374151] text-[17px] md:text-[22px] mb-6">
+        Add Your Payment Method
+      </p>
       <RadioGroup
         value={selectedValue}
         onValueChange={setSelectedValue}

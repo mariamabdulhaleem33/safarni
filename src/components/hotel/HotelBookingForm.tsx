@@ -1,5 +1,3 @@
-
-import * as React from "react";
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
@@ -144,8 +142,8 @@ export function HotelBookingForm() {
               <FieldLabel>Room Type</FieldLabel>
               <Tabs
                 value={field.state.value}
-                onValueChange={(value: "standard" | "deluxe" | "suite" | "presidential") => 
-                  field.handleChange(value)
+                onValueChange={(value: string) => 
+                  field.handleChange(value as "standard" | "deluxe" | "suite" | "presidential")
                 }
                 className="w-full"
               >

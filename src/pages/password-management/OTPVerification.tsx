@@ -15,7 +15,7 @@ const email = location.state?.email;
       <div className="auth-content-layout">
         <div className="w-[50%] flex flex-col gap-4">
           <div className="w-fit rounded-full p-4 bg-gray-100">
-            <Link to="/forgot-password">
+            <Link to="/auth/forgot-password">
             <ChevronLeft />
             </Link>
           </div>
