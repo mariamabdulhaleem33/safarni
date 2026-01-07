@@ -28,6 +28,7 @@ export const useForgotPassword = () => {
       navigate("/auth/otp-verify", {
         state: {
           email: variables.email,
+          user_id:_data.data.user_id,
         },
       });
     },
@@ -35,6 +36,7 @@ export const useForgotPassword = () => {
     onError: (error) => {
       const message = error.response?.data?.message || "Something went wrong";
       toast.error(message);
+      console.log(error);
     },
   });
 };

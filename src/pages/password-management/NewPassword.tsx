@@ -1,9 +1,10 @@
 import Logo from "@/components/ui/Logo";
 import forgotPassImg from "@/assets/forgotPassImg.png";
 import type { FC } from "react";
-import { ArrowLeft, ChevronLeft, Lock } from "lucide-react";
+import { ArrowLeft, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 import NewPassForm from "@/components/password-management/NewPassForm";
+import BackButton from "@/components/backButton";
 
 const NewPassword: FC = () => {
   return (
@@ -11,11 +12,7 @@ const NewPassword: FC = () => {
       <Logo style="self-end" />
       <div className="auth-content-layout">
         <div className="w-[50%] flex flex-col gap-4">
-          <div className="w-fit rounded-full p-4 bg-gray-100">
-            <Link to="/auth/otp-verify">
-              <ChevronLeft />
-            </Link>
-          </div>
+          <BackButton />
           <img
             src={forgotPassImg}
             className="h-[90vh] self-start object-contain"

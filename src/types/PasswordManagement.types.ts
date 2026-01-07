@@ -12,7 +12,14 @@ export type ForgotPassResponse={
 }
 
 export type OTPFormValues = {
+  user_id?:number;
   otp: string;
+};
+
+export type OTPResponse = {
+  message:number;
+  user_id:number;
+  token:string;
 };
 
 export type NewPassFormData = {

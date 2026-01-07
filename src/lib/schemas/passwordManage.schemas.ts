@@ -7,7 +7,7 @@ export const ForgotPassSchema = z.object({
 export const otpSchema = z.object({
   otp: z
     .string()
-    .length(4, "OTP must be 4 digits")
+    .length(6, "OTP must be 6 digits")
     .regex(/^\d+$/, "OTP must be numbers only"),
 });
 

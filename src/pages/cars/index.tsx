@@ -4,7 +4,7 @@ import { useState } from "react";
 import BrandCard from "@/components/car/BrandCard";
 import { CarCard } from "@/components/car/CarCard";
 import { BRANDS, CARS } from "@/services/car.mock";
-import SearchBox from "@/components/search/SearchBox";
+import SearchBox from "@/components/Search/SearchBox";
 import BackButton from "@/components/backButton";
 
 const CarsPage = () => {
