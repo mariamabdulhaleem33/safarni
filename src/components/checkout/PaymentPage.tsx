@@ -29,7 +29,7 @@ export default function PaymentPage() {
         <div className="grid md:grid-cols-2 gap-8">
           <CardShape img={cardImage} />
           <div
-            className={`h-183.5 w-full flex flex-col ${
+            className={`h-145 w-full flex flex-col ${
               isConfirmed ? "justify-start" : "justify-between"
             } gap-8 w-full py-2 px-3 md:px-10 font-sans`}
           >
