@@ -37,7 +37,7 @@ const Recommendation = () => {
     return (
         <section className="flex flex-col gap-3">
             <SectionHeader title="Recommendation" path="/" />
-            <div className="grid grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {recommendationsData.map((trip, index) => {
                     return <TourCard variant={trip.variant} key={index} image={trip.image} title={trip.title} rating={trip.rating} location={trip.location} />
                 })}

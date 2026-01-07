@@ -16,7 +16,6 @@ const HotelPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('about');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // بيانات Available Rooms
   const availableRooms = [
     {
       id: 101,
@@ -48,7 +47,6 @@ const HotelPage: React.FC = () => {
     }
   ];
 
-  // بيانات التوصيات
   const recommendations = [
     {
       id: 1,
@@ -106,7 +104,6 @@ const HotelPage: React.FC = () => {
     }
   ];
 
-  // بيانات الفنادق القريبة
   const nearbyHotels = [
     {
       id: 7,

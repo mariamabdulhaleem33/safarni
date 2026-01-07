@@ -8,13 +8,14 @@ import React from "react"
 export const useSignup = () => {
   const {
     register,
+    watch,
     handleSubmit,
     formState: { errors },
   } = useForm<SignupFormType>({
     resolver: zodResolver(signupSchema),
-    mode: "onTouched",
+    mode: "onChange",
   })
-
+  const passwordValue = watch("password", "")
   const hasPasswordError = !!errors.password
 
   const onSubmit = (data: SignupFormType) => {
@@ -59,5 +60,6 @@ export const useSignup = () => {
     inputs,
     hasPasswordError,
     errors,
+    passwordValue,
   }
 }

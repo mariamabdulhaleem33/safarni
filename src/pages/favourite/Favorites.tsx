@@ -9,10 +9,8 @@ export const Favorites = () => {
 
   // Simulate API call
   useEffect(() => {
-    setTimeout(() => {
       setTours(mockTours);
       setLoading(false);
-    }, 1500);
   }, []);
 
   const toggleFavorite = (id: number) => {

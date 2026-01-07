@@ -40,7 +40,7 @@ const AvaliableTours = () => {
     return (
         <section className=" flex flex-col gap-3 my-8">
             <SectionHeader title="Available Tours" path="/" />
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {toursData.map((trip, index) => {
                     return <TourCard variant={trip.variant} key={index} image={trip.image} title={trip.title} rating={trip.rating} location={trip.location} price={trip.price} />
                 })}

@@ -39,43 +39,43 @@ const initialRows: Row[] = [
     ],
   },
   {
-    rowNumber: 2,
+    rowNumber: 3,
     seats: [
-      { number: 6, row: 2, status: "available" },
-      { number: 7, row: 2, status: "available" },
-      { number: 8, row: 2, status: "booked" },
-      { number: 9, row: 2, status: "available" },
-      { number: 10, row: 2, status: "available" },
+      { number: 11, row: 3, status: "available" },
+      { number: 12, row: 3, status: "available" },
+      { number: 13, row: 3, status: "booked" },
+      { number: 14, row: 3, status: "available" },
+      { number: 15, row: 3, status: "available" },
     ],
   },
   {
-    rowNumber: 2,
+    rowNumber: 4,
     seats: [
-      { number: 6, row: 2, status: "available" },
-      { number: 7, row: 2, status: "available" },
-      { number: 8, row: 2, status: "booked" },
-      { number: 9, row: 2, status: "available" },
-      { number: 10, row: 2, status: "available" },
+      { number: 16, row: 4, status: "available" },
+      { number: 17, row: 4, status: "available" },
+      { number: 18, row: 4, status: "booked" },
+      { number: 19, row: 4, status: "available" },
+      { number: 20, row: 4, status: "available" },
     ],
   },
   {
-    rowNumber: 2,
+    rowNumber: 5,
     seats: [
-      { number: 6, row: 2, status: "available" },
-      { number: 7, row: 2, status: "available" },
-      { number: 8, row: 2, status: "booked" },
-      { number: 9, row: 2, status: "available" },
-      { number: 10, row: 2, status: "available" },
+      { number: 21, row: 5, status: "available" },
+      { number: 22, row: 5, status: "available" },
+      { number: 23, row: 5, status: "booked" },
+      { number: 24, row: 5, status: "available" },
+      { number: 25, row: 5, status: "available" },
     ],
   },
   {
-    rowNumber: 2,
+    rowNumber: 6,
     seats: [
-      { number: 6, row: 2, status: "available" },
-      { number: 7, row: 2, status: "available" },
-      { number: 8, row: 2, status: "booked" },
-      { number: 9, row: 2, status: "available" },
-      { number: 10, row: 2, status: "available" },
+      { number: 25, row: 6, status: "available" },
+      { number: 26, row: 6, status: "available" },
+      { number: 27, row: 6, status: "booked" },
+      { number: 28, row: 6, status: "available" },
+      { number: 19, row: 6, status: "available" },
     ],
   },
 ];
@@ -146,6 +146,11 @@ export default function SeatBooking() {
 
   return (
     <div className="space-y-6">
+            <div className="grid grid-cols-3 justify-between ">
+              <span className="">available</span>
+              <span className="justify-self-center">available</span>
+              <span className="justify-self-end">available</span>
+            </div>
       {rows.map(row => (
         <div key={row.rowNumber}>
           <div className="mb-2 text-xs text-muted-foreground">
