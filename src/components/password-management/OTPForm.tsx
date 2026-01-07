@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import OTPInput from "../ui/OTPInput";
 import { Button } from "../ui/button";
-import { useOTPTimer } from "@/hooks/useOTPTimer";
+import { useOTPTimer } from "@/hooks/password-management/useOTPTimer";
 import { otpSchema } from "@/lib/schemas/passwordManage.schemas";
 import { type OTPFormValues } from "@/types/PasswordManagement.types";
 import { Controller, useForm } from "react-hook-form";
