@@ -1,24 +1,26 @@
 import Logo from "@/components/ui/Logo";
 import OTPVerifyImg from "@/assets/OTPVerifyImg.png";
 import type { FC } from "react";
-import { ChevronLeft, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import OTPForm from "@/components/password-management/OTPForm";
-import { Link, useLocation } from "react-router-dom";
+// import { Navigate, useLocation } from "react-router-dom";
+import BackButton from "@/components/backButton";
 
 const OTPVerification: FC = () => {
+  // const location = useLocation();
+  const email = "mariam@gmail.com";
+  const user_id = 4;
 
-const location = useLocation();
-const email = location.state?.email;
+  // if (!email || !user_id) {
+  //   return <Navigate to="/auth/forgot-password" replace />;
+  // }
+
   return (
     <div className="auth-component-layout">
       <Logo style="self-end" />
       <div className="auth-content-layout">
         <div className="w-[50%] flex flex-col gap-4">
-          <div className="w-fit rounded-full p-4 bg-gray-100">
-            <Link to="/auth/forgot-password">
-            <ChevronLeft />
-            </Link>
-          </div>
+          <BackButton/>
           <img
             src={OTPVerifyImg}
             className="h-[85vh] self-start object-contain"
@@ -33,7 +35,7 @@ const email = location.state?.email;
             </p>
             <p className="text-gray-900 font-medium">{email}</p>
           </div>
-          <OTPForm />
+          <OTPForm user_id={user_id} email={email} />
         </div>
       </div>
     </div>

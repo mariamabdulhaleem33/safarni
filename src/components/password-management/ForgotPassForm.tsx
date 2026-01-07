@@ -8,17 +8,17 @@ import {
   InputGroupInput,
   InputGroupText,
 } from "../ui/input-group";
-import { MailIcon } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Loader2, MailIcon } from "lucide-react";
 import type { ForgotPassFormData } from "@/types/PasswordManagement.types";
 import { ForgotPassSchema } from "@/lib/schemas/passwordManage.schemas";
+import { useForgotPassword } from "@/hooks/password-management/useForgotPassword";
 
 const ForgotPassForm: FC = () => {
-  const navigate = useNavigate();
+  const { mutate, isPending } = useForgotPassword();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     reset,
   } = useForm<ForgotPassFormData>({
     resolver: zodResolver(ForgotPassSchema),
@@ -27,11 +27,7 @@ const ForgotPassForm: FC = () => {
     },
   });
   const onSubmit = (data: ForgotPassFormData) => {
-    navigate("/auth/otp-verify", {
-      state: {
-        email: data.email,
-      },
-    });
+    mutate(data);
     reset();
   };
   return (
@@ -45,7 +41,7 @@ const ForgotPassForm: FC = () => {
         </InputGroupText>
         <InputGroup className={` w-full h-12 rounded-sm shadow-xs`}>
           <InputGroupInput
-            disabled={isSubmitting}
+            disabled={isPending}
             type="email"
             placeholder="Enter your email"
             {...register("email")}
@@ -60,10 +56,10 @@ const ForgotPassForm: FC = () => {
       )}
       <InputGroupButton
         type="submit"
-        disabled={isSubmitting}
+        disabled={isPending}
         className="w-full h-12 rounded-sm text-xl font-semibold bg-blue-800 text-white cursor-pointer hover:text-white hover:bg-blue-900"
       >
-        {isSubmitting ? "Sending" : "Reset Password"}
+        {isPending ? <>Sending<Loader2  className="animate-spin" /></> : "Reset Password"}
       </InputGroupButton>
     </form>
   );

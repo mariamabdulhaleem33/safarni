@@ -1,21 +1,18 @@
 import Logo from "@/components/ui/Logo";
 import forgotPassImg from "@/assets/forgotPassImg.png";
 import type { FC } from "react";
-import { ChevronLeft, KeyRound } from "lucide-react";
+import { KeyRound } from "lucide-react";
 import ForgotPassForm from "@/components/password-management/ForgotPassForm";
-import { Link } from "react-router-dom";
+
+import BackButton from "@/components/backButton";
 
 const ForgotPassword: FC = () => {
   return (
     <div className="auth-component-layout">
-      <Logo style="self-end"/>
+      <Logo style="self-end" />
       <div className="auth-content-layout">
         <div className="w-[50%] flex flex-col gap-4">
-          <div className="w-fit rounded-full p-4 bg-gray-100">
-            <Link to="/login">
-              <ChevronLeft />
-            </Link>
-          </div>
+          <BackButton/>
           <img
             src={forgotPassImg}
             className="h-[85vh] self-start object-contain"

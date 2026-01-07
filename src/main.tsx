@@ -7,7 +7,7 @@ import "leaflet/dist/leaflet.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Toaster />
+    <Toaster richColors/>
     <App />
   </StrictMode>
 );

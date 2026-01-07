@@ -1,10 +1,10 @@
 import type { FC } from "react";
-import Logo from "./Logo";
+import Logo from "@/components/ui/Logo";
 import success from "@/assets/Success.png";
 import check from "@/assets/check-circle.png";
-import { ChevronLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Button } from "./button";
+import { Button } from "@/components/ui/button";
+import BackButton from "@/components/backButton";
 
 const Success: FC = () => {
   return (
@@ -12,11 +12,7 @@ const Success: FC = () => {
       <Logo style="self-end" />
       <div className="auth-content-layout">
         <div className="w-[50%] flex flex-col justify-start gap-4">
-          <div className="w-fit rounded-full p-4 bg-gray-100">
-            <Link to="/auth/new-password">
-              <ChevronLeft />
-            </Link>
-          </div>
+          <BackButton />
           <img src={success} className="h-[85vh] self-start object-contain" />
         </div>
         <div className="px-12.5 flex flex-col items-center gap-6 w-1/2">

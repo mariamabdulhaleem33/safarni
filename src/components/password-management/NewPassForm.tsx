@@ -1,24 +1,31 @@
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
 import type { NewPassFormData } from "@/types/PasswordManagement.types";
 import { newPassSchema } from "@/lib/schemas/passwordManage.schemas";
 import PasswordRule from "./PasswordRule";
 import { InputGroupButton } from "../ui/input-group";
 import PasswordInput from "./PasswordInput";
+import { useResetPassword } from "@/hooks/password-management/useResetPassword";
+import { Loader2 } from "lucide-react";
 
-const NewPassForm: FC = () => {
+type NewPassFormProp = {
+  user_id: number;
+  otp: string;
+};
+
+const NewPassForm: FC<NewPassFormProp> = ({ user_id, otp }) => {
+  const { mutate, isPending } = useResetPassword();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     watch,
     reset,
   } = useForm<NewPassFormData>({
     resolver: zodResolver(newPassSchema),
   });
-  const password = watch("newPassword") || "";
+  const password = watch("password") || "";
   const isPasswordLengthValid = password.length >= 8;
   const isPasswordFormatValid = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(
     password
@@ -28,21 +35,21 @@ const NewPassForm: FC = () => {
       label: "Password",
       type: "password",
       placeholder: "Enter new password",
-      register: { ...register("newPassword") },
-      isSubmitting: isSubmitting,
-      error: errors.newPassword && (
-        <p className="text-red-500 self-start">{errors.newPassword.message}</p>
+      register: { ...register("password") },
+      isSubmitting: isPending,
+      error: errors.password && (
+        <p className="text-red-500 self-start">{errors.password.message}</p>
       ),
     },
     {
       label: "confirm Password",
       type: "password",
       placeholder: "Enter new password again",
-      register: { ...register("confirmPassword") },
-      isSubmitting: isSubmitting,
-      error: errors.confirmPassword && (
+      register: { ...register("password_confirmation") },
+      isSubmitting: isPending,
+      error: errors.password_confirmation && (
         <p className="text-red-500 self-start">
-          {errors.confirmPassword.message}
+          {errors.password_confirmation.message}
         </p>
       ),
     },
@@ -59,11 +66,12 @@ const NewPassForm: FC = () => {
     },
   ];
 
-  const navigate = useNavigate();
-
   const onSubmit = (data: NewPassFormData) => {
-    console.log(data);
-    navigate("/success");
+    mutate({
+      ...data,
+      user_id,
+      otp,
+    });
     reset();
   };
 
@@ -92,10 +100,16 @@ const NewPassForm: FC = () => {
       </div>
       <InputGroupButton
         type="submit"
-        disabled={isSubmitting}
+        disabled={isPending}
         className="w-full h-12 rounded-sm text-xl font-semibold bg-blue-800 text-white cursor-pointer hover:text-white hover:bg-blue-900"
       >
-        {isSubmitting ? "Processing" : "Reset Password"}
+        {isPending ? (
+          <>
+            Processing <Loader2 className="animate-spin" />
+          </>
+        ) : (
+          "Reset Password"
+        )}
       </InputGroupButton>
     </form>
   );

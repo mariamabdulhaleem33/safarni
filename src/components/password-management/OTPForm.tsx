@@ -1,37 +1,47 @@
 import type { FC } from "react";
 import OTPInput from "../ui/OTPInput";
 import { Button } from "../ui/button";
-import { useOTPTimer } from "@/hooks/useOTPTimer";
+import { useOTPTimer } from "@/hooks/password-management/useOTPTimer";
 import { otpSchema } from "@/lib/schemas/passwordManage.schemas";
 import { type OTPFormValues } from "@/types/PasswordManagement.types";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
+import { useOTPVerify } from "@/hooks/password-management/useOTPVerify";
+import { Loader2 } from "lucide-react";
+import { useResendOTP } from "@/hooks/password-management/useResendOTP";
 
-const OTPForm: FC = () => {
+type OTPFormProps = {
+  user_id: number;
+  email: string;
+};
 
-  const navigate = useNavigate();
+const OTPForm: FC<OTPFormProps> = ({ user_id, email }) => {
   const { isRunning, seconds, resend } = useOTPTimer();
-
+  const { mutate, isPending } = useOTPVerify();
+  const { mutate: resendOTP, isPending: isResending } = useResendOTP();
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<OTPFormValues>({
     resolver: zodResolver(otpSchema),
-    defaultValues:{
-      otp: ""
-    }
+    defaultValues: {
+      otp: "",
+    },
   });
 
-
   const handleClick = () => {
+    resendOTP({ email });
     resend();
   };
 
   const onSubmit = (data: OTPFormValues) => {
-    console.log(data);
-    navigate("/auth/new-password");
+    mutate({
+      ...data,
+      user_id,
+    });
+    reset();
   };
   return (
     <form
@@ -53,16 +63,33 @@ const OTPForm: FC = () => {
         OTP not receive?{" "}
         <button
           onClick={handleClick}
-          disabled={isRunning}
+          disabled={isRunning || isResending}
           className={`${
-            isRunning ? "cursor-not-allowed" : "text-blue-800 cursor-pointer"
+            isRunning || isResending
+              ? "cursor-not-allowed"
+              : "text-blue-800 cursor-pointer"
           } underline`}
         >
           send again
         </button>
       </p>
-      <Button className="w-full h-12 rounded-sm text-xl font-semibold bg-blue-800 text-white cursor-pointer hover:text-white hover:bg-blue-900">
-        Verify
+      <Button
+        type="submit"
+        disabled={isPending || isResending}
+        className="w-full h-12 rounded-sm text-xl font-semibold bg-blue-800 text-white cursor-pointer hover:text-white hover:bg-blue-900"
+      >
+        {isPending ? (
+          <>
+            Verifying
+            <Loader2 className="animate-spin" />
+          </>
+        ) : isResending ? (
+          <>
+            Resending <Loader2 className="animate-spin" />{" "}
+          </>
+        ) : (
+          "Verify"
+        )}
       </Button>
     </form>
   );

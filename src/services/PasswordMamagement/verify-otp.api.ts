@@ -1,0 +1,13 @@
+import type {
+  OTPFormValues,
+  OTPResponse,
+} from "@/types/PasswordManagement.types";
+import api from "../api";
+import { transformOTPResponse } from "@/utils/transformOTPResponse";
+
+export const OTPVerifyAPI = async (
+  OTPVerifyData: OTPFormValues
+): Promise<OTPResponse> => {
+  const response = await api.post<OTPResponse>("verify-otp", OTPVerifyData);
+  return transformOTPResponse(response.data);
+};
