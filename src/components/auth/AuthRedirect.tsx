@@ -8,12 +8,12 @@ const VARIANTS = {
   signup: {
     text: "Don't have an account?",
     linkText: "Sign Up",
-    path: "/signup",
+    path: "/auth/signup",
   },
   signin: {
     text: "Already have an account?",
     linkText: "Sign In",
-    path: "/login",
+    path: "/auth/login",
   },
 }
 export default function AuthRedirect({ variant }: AuthRedirect) {

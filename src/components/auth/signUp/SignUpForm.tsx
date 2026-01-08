@@ -11,6 +11,7 @@ import { useSignup } from "@/hooks/auth/useSignup"
 export default function SignUpForm() {
   const { handleSubmit, onSubmit, inputs, hasPasswordError, passwordValue } =
     useSignup()
+  console.log("SignUpForm rendered")
   return (
     <div className="flex items-center justify-center">
       <div className="w-full max-w-md bg-white text-left">
