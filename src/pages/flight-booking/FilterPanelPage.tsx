@@ -1,14 +1,5 @@
-import  FiltersPanel from '@/components/flight-booking/FilterPanel'
+import FiltersPanel from "@/components/flight-booking/FilterPanel";
 
 export default function FilterPanelPage() {
-
-  return (
-
-
-<FiltersPanel/>
-
-
-
-
-  )
+  return <FiltersPanel />;
 }

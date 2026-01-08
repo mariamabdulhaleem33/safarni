@@ -20,7 +20,7 @@ export default function SortBy({
   return (
     <div className="flex flex-col mb-6 gap-4">
       <h2 className="text-xl">Sort By</h2>
-      <div className="flex gap-5">
+      <div className="flex gap-5 flex-wrap">
         {sortingOptions.map(option => (
           <Button
             key={option}

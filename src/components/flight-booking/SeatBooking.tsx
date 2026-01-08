@@ -24,7 +24,7 @@ const initialRows: Row[] = [
       { number: 1, row: 1, status: "available" },
       { number: 2, row: 1, status: "booked" },
       { number: 3, row: 1, status: "available" },
-      { number: 4, row: 1, status: "selected" },
+      { number: 4, row: 1, status: "available" },
       { number: 5, row: 1, status: "available" },
     ],
   },
@@ -75,7 +75,7 @@ const initialRows: Row[] = [
       { number: 26, row: 6, status: "available" },
       { number: 27, row: 6, status: "booked" },
       { number: 28, row: 6, status: "available" },
-      { number: 19, row: 6, status: "available" },
+      { number: 29, row: 6, status: "available" },
     ],
   },
 ];
@@ -117,6 +117,9 @@ const Seat = ({ seat, onSelect }: SeatProps) => {
 
 export default function SeatBooking() {
   const [rows, setRows] = useState<Row[]>(initialRows);
+  const selectedSeat = rows
+    .flatMap(row => row.seats)
+    .find(seat => seat.status === "selected");
 
   const handleSelectSeat = (selectedSeat: Seat) => {
     setRows(prev =>
@@ -143,14 +146,28 @@ export default function SeatBooking() {
       })),
     );
   };
-
   return (
     <div className="space-y-6">
-            <div className="grid grid-cols-3 justify-between ">
-              <span className="">available</span>
-              <span className="justify-self-center">available</span>
-              <span className="justify-self-end">available</span>
-            </div>
+      <div className="grid grid-cols-3 items-center">
+        {/* Available */}
+        <div className="flex items-center gap-2">
+          <span className="h-3 w-3 rounded-full bg-blue-600 block" />
+          <span className="text-sm">Available</span>
+        </div>
+
+        {/* Selected */}
+        <div className="flex items-center gap-2 justify-self-center">
+          <span className="h-3 w-3 rounded-full bg-green-500 block" />
+          <span className="text-sm">Selected</span>
+        </div>
+
+        {/* Unavailable */}
+        <div className="flex items-center gap-2 justify-self-end">
+          <span className="h-3 w-3 rounded-full bg-gray-400 block" />
+          <span className="text-sm">Unavailable</span>
+        </div>
+      </div>
+
       {rows.map(row => (
         <div key={row.rowNumber}>
           <div className="mb-2 text-xs text-muted-foreground">
@@ -181,6 +198,26 @@ export default function SeatBooking() {
           </div>
         </div>
       ))}
+      <div className="flex justify-between">
+        <div>Ticket Price</div>
+        <div className="text-blue-800 text-xl ">1500 $</div>
+      </div>
+      <div className="flex justify-between">
+        <div>Total Price</div>
+        <div className="text-blue-800 text-xl ">1500 $</div>
+      </div>
+      <div className="flex justify-between">
+        <div>Your Seat</div>
+        <div className="text-blue-800 text-xl ">
+          {selectedSeat ? selectedSeat.number : ""}
+        </div>
+      </div>
+      <button
+        className="w-full bg-blue-700 text-white py-3 rounded-md cursor-pointer hover:bg-blue-600 transition"
+        disabled={!selectedSeat}
+      >
+        Book Seat
+      </button>
     </div>
   );
 }

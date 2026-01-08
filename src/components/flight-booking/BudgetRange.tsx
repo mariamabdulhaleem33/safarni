@@ -1,4 +1,3 @@
-
 import { Slider } from "@/components/ui/slider";
 import diagram from "@/assets/diagram.png";
 
@@ -15,7 +14,6 @@ export default function BudgetRange({
       <img
         src={diagram}
         alt="diagram"
-        className="mb-4"
       />
       <Slider
         value={value}
