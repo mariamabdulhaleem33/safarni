@@ -46,9 +46,9 @@ const OTPForm: FC<OTPFormProps> = ({ user_id, email }) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-4 items-center w-full"
+      className="flex flex-col  gap-2 lg:gap-4 items-center w-full"
     >
-      <p className="text-gray-900 text-2xl font-medium">
+      <p className="text-gray-900 text-lg lg:text-2xl font-medium">
         {isRunning ? `00:${seconds}` : "00:00"}
       </p>
       <Controller
@@ -58,8 +58,8 @@ const OTPForm: FC<OTPFormProps> = ({ user_id, email }) => {
           <OTPInput value={field.value} onChange={field.onChange} />
         )}
       />
-      {errors.otp && <p className="text-red-500">{errors.otp.message}</p>}
-      <p className="text-lg">
+      {errors.otp && <p className="text-red-500 text-sm md:text-md lg:text-lg">{errors.otp.message}</p>}
+      <p className="text-sm lg:text-lg">
         OTP not receive?{" "}
         <button
           onClick={handleClick}
@@ -76,7 +76,7 @@ const OTPForm: FC<OTPFormProps> = ({ user_id, email }) => {
       <Button
         type="submit"
         disabled={isPending || isResending}
-        className="w-full h-12 rounded-sm text-xl font-semibold bg-blue-800 text-white cursor-pointer hover:text-white hover:bg-blue-900"
+        className="w-full h-10 lg:h-12 rounded-sm text-md lg:text-xl font-semibold bg-blue-800 text-white cursor-pointer hover:text-white hover:bg-blue-900"
       >
         {isPending ? (
           <>

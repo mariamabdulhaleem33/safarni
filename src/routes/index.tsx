@@ -66,13 +66,13 @@ export default function AppRoutes() {
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="otp-verify" element={<OTPVerification />} />
           <Route path="new-password" element={<NewPassword />} />
+          <Route path="success" element={<ResetPassSuccess />} />
         </Route>
         <Route path="/flight-booking" element={<FlightBooking />} />
         <Route path="/seat-booking" element={<SeatBookingPage />} />
         <Route path="/boarding-pass" element={<BoardingPassPage />} />
         <Route path="/filter-panel" element={<FilterPanelPage />} />
         <Route path="/flight-form" element={<FlightBookingForm />} />
-        <Route path="/success" element={<ResetPassSuccess />} />
         <Route path="/hotel" element={<HotelPage />} />
         <Route path="hotel/:hotelId" element={<HotelAboutPage />} />
         <Route path="hotel/:hotelId/:tab" element={<HotelAboutPage />} />

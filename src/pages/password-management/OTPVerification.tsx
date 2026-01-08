@@ -17,25 +17,26 @@ const OTPVerification: FC = () => {
 
   return (
     <div className="auth-component-layout">
-      <Logo style="self-end" />
+      <Logo style="lg:self-end" />
       <div className="auth-content-layout">
-        <div className="w-[50%] flex flex-col gap-4">
+        <div className="hidden md:w-1/2 md:flex flex-col justify-center gap-2">
           <BackButton/>
           <img
             src={OTPVerifyImg}
-            className="h-[85vh] self-start object-contain"
+            className="w-full self-start object-contain"
           />
         </div>
-        <div className="px-12.5 flex flex-col items-center gap-6 w-1/2">
+        <div className="w-full px-3 md:px-12.5 flex flex-col items-center gap-3 lg:gap-6 md:w-1/2">
           <Mail size={28} color="#AFAFAF" />
           <div className="flex flex-col items-center gap-4">
-            <h4 className="text-gray-900 text-3xl font-medium">Verify Code</h4>
-            <p className="text-gray-500 text-lg text-center">
+            <h4 className="text-gray-900 text-xl lg:text-3xl font-medium text-center">Verify Code</h4>
+            <p className="text-gray-500 text-sm lg:text-lg text-center">
               Please enter the code we just sent to email
             </p>
-            <p className="text-gray-900 font-medium">{email}</p>
+            <p className="text-gray-900 text-sm lg:text-lg font-medium">{email}</p>
           </div>
           <OTPForm user_id={user_id} email={email} />
+          
         </div>
       </div>
     </div>

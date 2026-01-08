@@ -38,7 +38,7 @@ const NewPassForm: FC<NewPassFormProp> = ({ user_id, otp }) => {
       register: { ...register("password") },
       isSubmitting: isPending,
       error: errors.password && (
-        <p className="text-red-500 self-start">{errors.password.message}</p>
+        <p className="text-red-500 text-sm md:text-md lg:text-lg self-start">{errors.password.message}</p>
       ),
     },
     {
@@ -48,7 +48,7 @@ const NewPassForm: FC<NewPassFormProp> = ({ user_id, otp }) => {
       register: { ...register("password_confirmation") },
       isSubmitting: isPending,
       error: errors.password_confirmation && (
-        <p className="text-red-500 self-start">
+        <p className="text-red-500 text-sm md:text-md lg:text-lg self-start">
           {errors.password_confirmation.message}
         </p>
       ),
@@ -78,7 +78,7 @@ const NewPassForm: FC<NewPassFormProp> = ({ user_id, otp }) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col justify-center gap-2 items-center w-full"
+      className="flex flex-col justify-center gap-2 items-center  w-full max-w-md"
     >
       {NewPassFormInputs.map((el, i) => {
         return (
@@ -93,7 +93,7 @@ const NewPassForm: FC<NewPassFormProp> = ({ user_id, otp }) => {
           />
         );
       })}
-      <div className="w-full flex flex-col items-start justify-center gap-2">
+      <div className="w-full flex flex-col items-start justify-center gap-1 ">
         {passRules.map((el, i) => (
           <PasswordRule key={i} valid={el.valid} message={el.message} />
         ))}
@@ -101,7 +101,7 @@ const NewPassForm: FC<NewPassFormProp> = ({ user_id, otp }) => {
       <InputGroupButton
         type="submit"
         disabled={isPending}
-        className="w-full h-12 rounded-sm text-xl font-semibold bg-blue-800 text-white cursor-pointer hover:text-white hover:bg-blue-900"
+        className="w-full h-10 lg:h-12 rounded-sm text-md lg:text-xl font-semibold bg-blue-800 text-white cursor-pointer hover:text-white hover:bg-blue-900"
       >
         {isPending ? (
           <>

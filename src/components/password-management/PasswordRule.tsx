@@ -12,12 +12,12 @@ const PasswordRule:FC<PasswordRuleProps>=({valid, message})=>{
         <div className="flex items-center justify-center gap-2">
           <CircleCheck
             color={valid ? "#22C55E" : "#6B7280"}
-            size={20}
+            size={15}
           />
           <p
-            className={`text-md ${
+            className={`${
               valid ? "text-green-500" : "text-gray-500"
-            } `}
+            } text-xs sm:text-sm md:text-xs lg:text-lg`}
           >
             {message}
           </p>
