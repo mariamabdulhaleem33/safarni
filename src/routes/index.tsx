@@ -57,9 +57,9 @@ export default function AppRoutes() {
               </div>
             }
           />
-          <Route path="payment" element={<PaymentPage />} />
+          <Route path="payment/:id" element={<PaymentPage />} />
           <Route path="payment/success" element={<SuccessPage />} />
-          <Route path="payment/error" element={<ErrorPage />} />
+          <Route path="payment/error/:paymentId" element={<ErrorPage />} />
         </Route>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="welcome" element={<WelcomePage />} />

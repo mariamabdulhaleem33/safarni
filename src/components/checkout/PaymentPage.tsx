@@ -5,12 +5,14 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { MethodSelector } from "./MethodSelector";
-import Visa from "./Booking/visa";
 import Mastercard from "./Booking/Mastercard";
 import Paypal from "./Booking/Paypal";
 import BackIcon from "./BackIcon";
+import { useParams } from "react-router-dom";
+import StripeForm from "./Booking/Stripe";
 
 export default function PaymentPage() {
+  const { id } = useParams();
   const [selectedValue, setSelectedValue] = useState<string>("");
   const [isConfirmed, setIsConfirmed] = useState<boolean>(false);
   const handleContinue = () => {
@@ -57,7 +59,9 @@ export default function PaymentPage() {
             {/* Payment Method Form */}
             {isConfirmed && (
               <div className="animate-in slide-in-from-top-4 duration-500">
-                {isConfirmed && selectedValue === "visa" && <Visa />}
+                {isConfirmed && selectedValue === "stripe" && (
+                  <StripeForm bookingId={id} />
+                )}
                 {isConfirmed && selectedValue === "mastercard" && (
                   <Mastercard />
                 )}
