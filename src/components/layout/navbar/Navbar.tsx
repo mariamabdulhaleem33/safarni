@@ -10,7 +10,6 @@ interface NavbarProps {
 }
 
 export const Navbar = ({
-  userPhotoUrl,
   onSearchClick,
   onFilterClick,
   onUserClick,
@@ -22,7 +21,6 @@ export const Navbar = ({
         <Logo />
         <NavigationLinks />
         <NavbarActions
-          userPhotoUrl={userPhotoUrl}
           onSearchClick={onSearchClick}
           onFilterClick={onFilterClick}
           onUserClick={onUserClick}
