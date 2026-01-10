@@ -4,7 +4,7 @@ import { Logo } from "./Logo";
 import { NavigationLinks } from "./NavigationLinks";
 import { NavbarActions } from "./NavbarActions";
 import { MenuIcon, CloseIcon, SearchIcon, FilterIcon } from "../../icons";
-import userImage from "../../../assets/user.png";
+import UserButton from "./UserButton";
 
 interface NavbarProps {
   userPhotoUrl?: string;
@@ -61,20 +61,11 @@ export const Navbar = ({
           >
             <FilterIcon className="w-5 h-5" />
           </button>
-          <button
-            onClick={() => {
-              onUserClick?.();
-              navigate("/profile");
-            }}
-            className="flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 p-1"
-            aria-label="User profile"
-          >
-            <img
-              src={userPhotoUrl || userImage}
-              alt="User profile"
-              className="w-5 h-5 sm:w-6 sm:h-6 rounded-full object-cover"
-            />
-          </button>
+          <UserButton
+            userPhotoUrl={userPhotoUrl}
+            onUserClick={onUserClick}
+            style={"w-5 h-5 sm:w-6 sm:h-6 rounded-full object-cover"}
+          />
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 p-1"
