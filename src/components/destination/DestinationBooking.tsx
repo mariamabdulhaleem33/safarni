@@ -2,8 +2,8 @@ import { Button } from "../ui/button"
 
 export default function DestinationBooking() {
   return (
-    <div className="md:min-h-30 min-h-20 p-4 flex justify-center items-center bg-white">
-      <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 md:px-8 lg:px-0 rounded-tl-2xl flex justify-between items-center">
+    <div className="md:min-h-30 min-h-20 p-4 flex justify-center items-center">
+      <div className="w-full max-w-310 mx-auto px-4 sm:px-6 md:px-8 lg:px-0 rounded-tl-2xl flex justify-between items-center">
         <p className="text-[25px]">
           Total price:{" "}
           <span className="md:text-[30px] text-5 text-[#1E429F] font-medium">

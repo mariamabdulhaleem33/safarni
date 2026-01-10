@@ -7,10 +7,10 @@ export default function TripInfo() {
   return (
     <article className="flex flex-col gap-7">
       <div className={FLEX_LAYOUT}>
-        <h2 className="text-[#111928] md:text-[25px] text-[21px] font-medium font-poppins">
+        <h2 className="text-gray-900 md:text-[25px] text-[21px] font-medium font-poppins">
           Eiffel Tower
         </h2>
-        <StarRating rating={4.3} />
+        <StarRating rating={4.3} variant="reviewTour" />
       </div>
       <div className={FLEX_LAYOUT}>
         <span className={TYPOGRAPHY}>City Breaks</span>
