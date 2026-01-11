@@ -25,12 +25,13 @@ const PasswordInput: FC<PasswordInputProps> = ({
   error
 }) => {
   return (
-    <div className="w-full flex flex-col justify-center gap-2">
-      <InputGroupText className="self-start text-lg text-neutral-700">
+    <div className="w-full flex flex-col justify-center gap-1">
+      <InputGroupText className="self-start text-sm lg:text-lg text-neutral-700">
         {label}
       </InputGroupText>
-      <InputGroup className={` w-full h-12 rounded-sm shadow-xs`}>
+      <InputGroup className={` w-full h-10 lg:h-12 rounded-sm shadow-xs`}>
         <InputGroupInput
+        className="text-sm lg:text-lg w-full"
           disabled={isSubmitting}
           type={type}
           placeholder={placeholder}

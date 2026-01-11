@@ -3,7 +3,7 @@ import Plane from "@/assets/plane.png"
 export default function SeatBookingPage() {
   return (
     <div className="flex w-full justify-center p-4 flex-column gap-30">
-      <div>
+      <div className="hidden md:flex">
         <img
           src={Plane}
           alt="plane"

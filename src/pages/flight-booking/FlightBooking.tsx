@@ -1,11 +1,11 @@
-// import type { DateSwitchHeader } from "@/components/flight-booking/DataSwitchHeader";
+
 import FlightTicketCard from "@/components/flight-booking/FlightTicketCard";
 import { DateSwitchHeader } from "@/components/flight-booking/DataSwitchHeader";
 
 export default function FlightBooking() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-6 gap-10">
-      <div className="flex w-full max-w-xl flex-col gap-4">
+    <div className="flex min-h-screen items-center justify-center bg-background p-6 gap-10 flex-wrap">
+      <div className="flex w-full max-w-xl flex-col gap-4 flex-wrap">
         <DateSwitchHeader date="August 24, 2024" />
 
         <FlightTicketCard

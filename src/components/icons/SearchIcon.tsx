@@ -2,11 +2,9 @@ interface SearchIconProps {
   className?: string;
 }
 
-export const SearchIcon = ({ className = "" }: SearchIconProps) => {
+export const SearchIcon = ({ className = "w-5 h-5" }: SearchIconProps) => {
   return (
     <svg
-      width="30"
-      height="30"
       viewBox="0 0 25 25"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

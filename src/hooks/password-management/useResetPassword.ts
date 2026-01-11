@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { ResetPassAPI } from "@/services/PasswordMamagement/reset-password.api";
 
 interface ApiError {
-  errors: string;
+  message: string;
 }
 
 export const useResetPassword = () => {
@@ -25,7 +25,7 @@ export const useResetPassword = () => {
     },
 
     onError: (error) => {
-      const message = error.response?.data?.errors || "Something went wrong";
+      const message = error.response?.data?.message || "Something went wrong";
       toast.error(message);
       console.log(error);
     },

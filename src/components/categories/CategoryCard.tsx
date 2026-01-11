@@ -7,17 +7,17 @@ interface CategoryCardProps {
 export const CategoryCard = ({ image, label, onClick }: CategoryCardProps) => {
   return (
     <div
-      className="flex flex-col cursor-pointer hover:opacity-90 transition-opacity w-full max-w-[243.96px] mx-auto min-h-[321.94px] gap-[13.94px]"
+      className="flex flex-col cursor-pointer hover:opacity-90 transition-opacity w-full max-w-[243.96px] mx-auto min-h-[200px] sm:min-h-[250px] md:min-h-[280px] lg:min-h-[321.94px] gap-2 sm:gap-3 md:gap-[13.94px]"
       onClick={onClick}
     >
-      <div className="w-full aspect-square max-w-[243.96px] max-h-[243.96px] rounded-full overflow-hidden mx-auto">
+      <div className="w-full aspect-square max-w-[150px] sm:max-w-[180px] md:max-w-[210px] lg:max-w-[243.96px] max-h-[150px] sm:max-h-[180px] md:max-h-[210px] lg:max-h-[243.96px] rounded-full overflow-hidden mx-auto">
         <img
           src={image}
           alt={label}
           className="w-full h-full object-cover"
         />
       </div>
-      <span className="text-center w-full max-w-[250.93px] mx-auto min-h-[60px] font-poppins font-medium text-[clamp(24px,4vw,40px)] leading-none text-[var(--color-primary-600)] flex items-center justify-center">
+      <span className="text-center w-full max-w-[250.93px] mx-auto min-h-[40px] sm:min-h-[50px] md:min-h-[60px] font-poppins font-medium text-base sm:text-xl md:text-2xl lg:text-[clamp(24px,4vw,40px)] leading-none text-[var(--color-primary-600)] flex items-center justify-center">
         {label}
       </span>
     </div>

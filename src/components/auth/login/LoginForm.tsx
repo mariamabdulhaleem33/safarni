@@ -9,7 +9,7 @@ import AuthInput from "../AuthInput"
 import { useLogin } from "@/hooks/auth/useLogin"
 
 const LoginForm = () => {
-  const { handleSubmit, onSubmit, inputs } = useLogin()
+  const { handleSubmit, onSubmit, inputs, isPending } = useLogin()
   return (
     <div className="flex items-center justify-center">
       <div className="w-full max-w-md bg-white text-left">
@@ -31,7 +31,10 @@ const LoginForm = () => {
             />
           ))}
           <ForgotPassword />
-          <AuthButton className="auth-button bg-[#1E429F] text-white hover:bg-[#163585] mb-6">
+          <AuthButton
+            disabled={isPending}
+            className="auth-button bg-[#1E429F] text-white hover:bg-[#163585] mb-6"
+          >
             Log In
           </AuthButton>
         </form>

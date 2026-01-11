@@ -1,8 +1,4 @@
 
-
-"use client";
-
-import * as React from "react";
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
 import  Plane  from "@/assets/plane.png";
@@ -29,7 +25,6 @@ const formSchema = z.object({
   location: z.string().min(6),
   destination: z.string().min(6),
   departure: z.string(),
-//   return: z.string().optional(),
   return: z.string(),
   passengers: z.string(),
 });
@@ -56,7 +51,7 @@ export function FlightBookingForm() {
 
   return (
     <div className="flex w-full items-center justify-center p-4 flex-column gap-30">
-      <div className="">
+      <div className="hidden sm:flex">
         <img
           src={Plane}
           alt="plane"
@@ -70,7 +65,7 @@ export function FlightBookingForm() {
             children={field => (
               <Tabs
                 value={field.state.value}
-                onValueChange={v => field.handleChange(v as any)}
+                onValueChange={v => field.handleChange(v as string)}
               >
                 <TabsList className="grid grid-cols-3 rounded-full bg-color-none gap-5">
                   <TabsTrigger

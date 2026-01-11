@@ -18,16 +18,16 @@ export const CategoriesSection = () => {
   };
 
   return (
-    <section className="w-full max-w-[1240px] flex flex-col min-h-[407.94px] gap-12">
+    <section className="w-full max-w-[1240px] flex flex-col min-h-[300px] sm:min-h-[350px] md:min-h-[407.94px] gap-6 sm:gap-8 md:gap-10 lg:gap-12 px-4 sm:px-6 md:px-8 lg:px-0">
       {/* Title */}
-      <div className="w-full h-auto min-h-[38px]">
-        <h2 className="text-xl sm:text-2xl lg:text-[25px] leading-none font-medium font-poppins text-[var(--color-gray-900)]">
+      <div className="w-full h-auto min-h-[30px] sm:min-h-[35px] md:min-h-[38px]">
+        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-[25px] leading-none font-medium font-poppins text-[var(--color-gray-900)]">
           Categories
         </h2>
       </div>
 
       {/* Content */}
-      <div className="w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-0 lg:flex lg:justify-between min-h-[321.94px]">
+      <div className="w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 lg:gap-0 lg:flex lg:justify-between min-h-[250px] sm:min-h-[280px] md:min-h-[321.94px]">
         {categories.map((category) => (
           <CategoryCard
             key={category.label}

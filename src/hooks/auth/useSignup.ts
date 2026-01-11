@@ -4,23 +4,34 @@ import { type SignupFormType, signupSchema } from "@/schemas/signupSchema"
 import { HiOutlineLockClosed, HiOutlineMail } from "react-icons/hi"
 import { IoPersonOutline } from "react-icons/io5"
 import React from "react"
-
+import { useMutation } from "@tanstack/react-query"
+import type { AxiosError } from "axios"
+import { useNavigate } from "react-router-dom"
+import { signup } from "@/services/auth.service"
+type SignUpErrorResponse = {
+  message: string
+  errors: serverErrors
+}
+type serverErrors = {
+  [key: string]: string[]
+}
 export const useSignup = () => {
+  const navigate = useNavigate()
+
   const {
     register,
     watch,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<SignupFormType>({
     resolver: zodResolver(signupSchema),
-    mode: "onChange",
+    mode: "onTouched",
   })
-  const passwordValue = watch("password", "")
-  const hasPasswordError = !!errors.password
 
-  const onSubmit = (data: SignupFormType) => {
-    console.log("Form Data:", data)
-  }
+  const passwordValue = watch("password", "")
+
+  const hasPasswordError = !!errors.password
 
   const ICON_STYLE = "text-gray-500 text-lg"
 
@@ -52,8 +63,41 @@ export const useSignup = () => {
       error: errors.password,
       icon: React.createElement(HiOutlineLockClosed, { className: ICON_STYLE }),
     },
+    {
+      id: "password_confirmation",
+      label: "Confirm Password",
+      type: "password",
+      placeholder: "************",
+      register: register("password_confirmation"),
+      error: errors.password_confirmation,
+      icon: React.createElement(HiOutlineLockClosed, { className: ICON_STYLE }),
+    },
   ]
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: signup,
+    onSuccess: (data) => {
+      console.log("data is fetched", data)
+      if (data) {
+        navigate("/auth/otp-verify", { state: { id: data?.user_id } })
+      }
+    },
+    onError: (error: AxiosError<SignUpErrorResponse>) => {
+      console.log(error)
+      const serverErrors = error?.response?.data?.errors
+      if (serverErrors) {
+        Object.keys(serverErrors).forEach((key) => {
+          setError(key as keyof SignupFormType, {
+            message: serverErrors[key][0],
+          })
+        })
+      }
+    },
+  })
+  const onSubmit = (data: SignupFormType) => {
+    console.log("onSubmit called", data)
+    mutate(data)
+  }
   return {
     handleSubmit,
     onSubmit,
@@ -61,5 +105,6 @@ export const useSignup = () => {
     hasPasswordError,
     errors,
     passwordValue,
+    isPending,
   }
 }

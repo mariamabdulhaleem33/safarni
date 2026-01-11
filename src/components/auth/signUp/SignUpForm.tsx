@@ -9,8 +9,15 @@ import AuthInput from "../AuthInput"
 import { useSignup } from "@/hooks/auth/useSignup"
 
 export default function SignUpForm() {
-  const { handleSubmit, onSubmit, inputs, hasPasswordError, passwordValue } =
-    useSignup()
+  const {
+    handleSubmit,
+    onSubmit,
+    inputs,
+    hasPasswordError,
+    passwordValue,
+    isPending,
+  } = useSignup()
+  console.log("SignUpForm rendered")
   return (
     <div className="flex items-center justify-center">
       <div className="w-full max-w-md bg-white text-left">
@@ -36,7 +43,10 @@ export default function SignUpForm() {
             isPasswordError={hasPasswordError}
             passwordValue={passwordValue}
           />
-          <AuthButton className="auth-button bg-[#1E429F] text-white hover:bg-[#163585] mb-6">
+          <AuthButton
+            className="auth-button bg-[#1E429F] text-white hover:bg-[#163585] mb-6"
+            disabled={isPending}
+          >
             Sign Up
           </AuthButton>
         </form>
