@@ -36,12 +36,12 @@ export default function AppRoutes() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
           <Route path="favorite" element={<Favorites />} />
-          <Route path="compare" element={<CompareToursPage />} />
+          {/* <Route path="compare" element={<CompareToursPage />} /> */}
           <Route
             path="search"
             element={
               <div className="pt-27.5 p-8">
-                <Search />
+                {/* <Search /> */}
               </div>
             }
           />

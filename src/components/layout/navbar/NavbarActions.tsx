@@ -22,7 +22,7 @@ export const NavbarActions = ({
     onUserClick?.();
 
     const token = localStorage.getItem('token');
-    navigate(token ? "/profile" : "/login");
+    navigate(token ? "/profile" : "/auth/login");
   };
 
   return (
