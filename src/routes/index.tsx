@@ -9,9 +9,9 @@ import OTPVerification from "@/pages/auth/passwordManagementPages/OTPVerificatio
 import FlightBooking from "@/pages/flight-booking/FlightBooking"
 import SeatBookingPage from "@/pages/flight-booking/SeatBookingPage"
 import AuthLayout from "@/components/layout/AuthLayout"
-import NewPassword from "@/pages/auth/passwordManagementPages/NewPassword"
-import ResetPassSuccess from "@/pages/auth/passwordManagementPages/Success"
-
+import NewPassword from "@/pages/password-management/NewPassword"
+import ResetPassSuccess from "@/pages/password-management/Success"
+import Destination from "@/pages/destination/Destination"
 import HotelPage from "@/pages/hotel/HotelPage"
 import HotelAboutPage from "@/pages/hotel/HotelAboutPage"
 import { Favorites } from "@/pages/favourite/Favorites"
@@ -25,14 +25,14 @@ import PaymentPage from "@/components/checkout/PaymentPage"
 import SuccessPage from "@/components/checkout/pages/SuccessPage"
 import ErrorPage from "@/components/checkout/pages/ErrorPage"
 
-import CarsPage from "@/pages/cars";
-import CarDetailsPage from "@/pages/cars/details";
-import PickUpPage from "@/pages/cars/pickup";
-import ProfileSettings from "@/components/profile/ProfileSettings";
-import PersonalInformation from "@/components/profile/PersonalInformation";
-import AccountSecurity from "@/components/profile/AccountSecurity";
-import CompareToursPage from "@/pages/compare/CompareToursPage";
-import Search from "@/pages/Search/Search";
+import CarsPage from "@/pages/cars"
+import CarDetailsPage from "@/pages/cars/details"
+import PickUpPage from "@/pages/cars/pickup"
+import ProfileSettings from "@/components/profile/ProfileSettings"
+import PersonalInformation from "@/components/profile/PersonalInformation"
+import AccountSecurity from "@/components/profile/AccountSecurity"
+import CompareToursPage from "@/pages/compare/CompareToursPage"
+import Search from "@/pages/Search/Search"
 export default function AppRoutes() {
   return (
     <Provider store={store}>
@@ -66,6 +66,7 @@ export default function AppRoutes() {
           <Route path="payment/:id" element={<PaymentPage />} />
           <Route path="payment/success" element={<SuccessPage />} />
           <Route path="payment/error/:paymentId" element={<ErrorPage />} />
+          <Route path="/destination" element={<Destination />} />
         </Route>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="welcome" element={<WelcomePage />} />
