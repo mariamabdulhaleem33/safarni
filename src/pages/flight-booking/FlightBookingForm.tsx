@@ -19,6 +19,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { searchFlights } from "@/api/flight-booking/search-flights.ts";
+import { useNavigate } from "react-router-dom";
+
 
 const formSchema = z.object({
   type: z.enum(["round-trip", "one-way"]),
@@ -29,6 +31,7 @@ const formSchema = z.object({
 });
 
 export function FlightBookingForm() {
+  const navigate = useNavigate();
   const form = useForm({
     defaultValues: {
       type: "round-trip",
@@ -42,9 +45,21 @@ export function FlightBookingForm() {
       onSubmit: formSchema,
     },
 
-    onSubmit: ({ value }) => {
-      const payload = { ...value, passengers: Number(value.passengers) };
-      searchFlights(payload);
+    onSubmit: async ({ value }) => {
+      try {
+        const payload = { ...value, passengers: Number(value.passengers) };
+        const res = await searchFlights(payload);
+
+        if (res.data.status === "success") {
+          navigate("/flight-booking", {
+            state: {
+              results: res.data.data, // 👈 هنا الداتا
+            },
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
     // onSubmit: ({ value }) => {
     //   console.log("Search Flights:", value);
