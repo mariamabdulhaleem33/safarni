@@ -1,181 +1,46 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// components/profile/ProfileSettings.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
-
+import { Toaster } from 'react-hot-toast';
 import {
+    ChevronLeft,
+    MoreVertical,
     User,
     CreditCard,
-    Globe,
     Lock,
+    Globe,
     LogOut,
-    ChevronRight,
-    Camera,
-    Check,
+    X,
     Loader2
 } from 'lucide-react';
-import { profile } from '@/assets';
+import { useUserProfile } from '../../hooks/useUserProfile';
+import { Avatar, MenuItem, LanguageSelector } from './ui';
+import { PersonalInformation } from './PersonalInformation';
+import { MyBookings } from './MyBookings';
+import { AccountSecurity } from './AccountSecurity';
+import { getUserDisplayName, getUserAvatar } from '../../utils/profile.utils';
+import type { ActiveSection, BookingType } from '../../types/profile.types';
 
+const ProfileSettings: React.FC = () => {
+    const navigate = useNavigate();
+    const [activeSection, setActiveSection] = useState<ActiveSection>('personal-info');
+    const [bookingType, setBookingType] = useState<BookingType>('Car');
+    const [menuOpen, setMenuOpen] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
 
-// Type Definitions
+    const {
+        user,
+        loading,
+        uploadingImage,
+        updateProfile,
+        uploadImage,
+        logout
+    } = useUserProfile(navigate);
 
-interface MenuItemProps {
-    icon: React.ElementType;
-    label: string;
-    onClick?: () => void;
-    isDestructive?: boolean;
-}
-
-interface Language {
-    code: string;
-    name: string;
-    nativeName: string;
-    flag: string;
-}
-
-// Constants
-const AVAILABLE_LANGUAGES: Language[] = [
-    { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸' },
-    { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦' },
-];
-
-
-/**
- * Set Google Translate cookie
- */
-const setTranslateCookie = (langCode: string): void => {
-    const value = langCode === 'en' ? '' : `/en/${langCode}`;
-    
-    // Clear existing cookies first
-    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${window.location.hostname}`;
-    
-    if (value) {
-        document.cookie = `googtrans=${value}; path=/`;
-        document.cookie = `googtrans=${value}; path=/; domain=.${window.location.hostname}`;
-    }
-};
-
-
- // Get current language from cookie
- 
-const getCurrentLanguage = (): string => {
-    const match = document.cookie.match(/googtrans=\/en\/([a-z]{2})/);
-    return match ? match[1] : 'en';
-};
-
-// Sub-Components
-const MenuItem: React.FC<MenuItemProps> = ({
-    icon: Icon,
-    label,
-    onClick,
-    isDestructive = false,
-}) => {
-    return (
-        <div
-            onClick={onClick}
-            className="group flex items-center justify-between p-4 bg-white rounded-xl border border-gray-50 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer"
-        >
-            <div className="flex items-center gap-4">
-                <Icon
-                    size={22}
-                    className={`${isDestructive ? 'text-red-500' : 'text-gray-600'} stroke-[1.5]`}
-                />
-                <span className={`font-medium text-base ${isDestructive ? 'text-red-500' : 'text-gray-800'}`}>
-                    {label}
-                </span>
-            </div>
-
-            {!isDestructive && (
-                <ChevronRight size={20} className="text-gray-400 group-hover:text-gray-600 transition-colors" />
-            )}
-        </div>
-    );
-};
-
-/**
- * LanguageSelector Component
- */
-const LanguageSelector: React.FC = () => {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [isChanging, setIsChanging] = useState<boolean>(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
-
-    // Get current language from cookie or localStorage
-    const currentLangCode = localStorage.getItem('selectedLanguage') || getCurrentLanguage();
-    const selectedLanguage = AVAILABLE_LANGUAGES.find(l => l.code === currentLangCode) || AVAILABLE_LANGUAGES[0];
-
-    // Initialize Google Translate
-    useEffect(() => {
-        // Hide Google Translate UI
-        const style = document.createElement('style');
-        style.id = 'google-translate-hide';
-        style.innerHTML = `
-            .goog-te-banner-frame,
-            .goog-te-gadget-icon,
-            #google_translate_element,
-            .goog-te-balloon-frame,
-            .goog-tooltip,
-            .VIpgJd-ZVi9od-ORHb-OEVmcd,
-            .VIpgJd-ZVi9od-l4eHX-hSRGPd,
-            #goog-gt-tt,
-            .goog-te-gadget,
-            .skiptranslate,
-            .goog-te-spinner-pos {
-                display: none !important;
-                visibility: hidden !important;
-            }
-            
-            body {
-                top: 0 !important;
-                position: static !important;
-            }
-            
-            .goog-text-highlight {
-                background: none !important;
-                box-shadow: none !important;
-            }
-        `;
-        
-        if (!document.getElementById('google-translate-hide')) {
-            document.head.appendChild(style);
-        }
-
-        // Create Google Translate container
-        if (!document.getElementById('google_translate_element')) {
-            const div = document.createElement('div');
-            div.id = 'google_translate_element';
-            div.style.display = 'none';
-            document.body.appendChild(div);
-        }
-
-        // Initialize Google Translate
-        (window as any).googleTranslateElementInit = () => {
-            new (window as any).google.translate.TranslateElement(
-                {
-                    pageLanguage: 'en',
-                    includedLanguages: 'en,ar',
-                    autoDisplay: false,
-                },
-                'google_translate_element'
-            );
-        };
-
-        // Load script if not already loaded
-        if (!document.getElementById('google-translate-script')) {
-            const script = document.createElement('script');
-            script.id = 'google-translate-script';
-            script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-            script.async = true;
-            document.body.appendChild(script);
-        }
-    }, []);
-
-    // Close dropdown on outside click
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsOpen(false);
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setMenuOpen(false);
             }
         };
 
@@ -183,205 +48,287 @@ const LanguageSelector: React.FC = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    /**
-     * Handle language change
-     */
-    const handleLanguageSelect = (language: Language): void => {
-        if (language.code === selectedLanguage.code) {
-            setIsOpen(false);
-            return;
+    const handleSectionChange = (section: ActiveSection) => {
+        setActiveSection(section);
+        setMenuOpen(false);
+    };
+
+    const handleLogout = () => {
+        setMenuOpen(false);
+        logout();
+    };
+
+    const renderContent = () => {
+        switch (activeSection) {
+            case 'personal-info':
+                return (
+                    <PersonalInformation
+                        profile={user}
+                        loading={loading}
+                        uploadingImage={uploadingImage}
+                        onUpdate={updateProfile}
+                        onImageUpload={uploadImage}
+                    />
+                );
+            case 'bookings':
+                return (
+                    <MyBookings
+                        activeType={bookingType}
+                        onTypeChange={setBookingType}
+                    />
+                );
+            case 'security':
+                return <AccountSecurity />;
+            default:
+                return null;
         }
+    };
 
-        setIsChanging(true);
-        setIsOpen(false);
-
-        // Save selection
-        localStorage.setItem('selectedLanguage', language.code);
-        
-        // Set cookie for Google Translate
-        setTranslateCookie(language.code);
-
-        // Show toast before reload
-        toast.success(`Changing to ${language.name}...`, {
-            icon: language.flag,
-            duration: 1000,
-            style: {
-                borderRadius: '10px',
-                background: '#333',
-                color: '#fff',
-            },
-        });
-
-        // Reload page after short delay
-        setTimeout(() => {
-            window.location.reload();
-        }, 500);
+    const getSectionTitle = () => {
+        switch (activeSection) {
+            case 'personal-info': return 'Profile';
+            case 'bookings': return 'My Bookings';
+            case 'security': return 'Security';
+            default: return 'Profile';
+        }
     };
 
     return (
-        <div ref={dropdownRef} className="relative">
-            {/* Trigger */}
-            <div
-                onClick={() => !isChanging && setIsOpen(!isOpen)}
-                className="group flex items-center justify-between p-4 bg-white rounded-xl border border-gray-50 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer"
-            >
-                <div className="flex items-center gap-4">
-                    <Globe size={22} className="text-gray-600 stroke-[1.5]" />
-                    <span className="font-medium text-base text-gray-800">
-                        App Language
-                    </span>
-                </div>
+        <div className="min-h-screen bg-gray-50">
+            <Toaster position="top-center" reverseOrder={false} />
 
-                <div className="flex items-center gap-2">
-                    {isChanging ? (
-                        <Loader2 size={18} className="animate-spin text-blue-500" />
-                    ) : (
-                        <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full flex items-center gap-1">
-                            <span>{selectedLanguage.flag}</span>
-                            <span>{selectedLanguage.name}</span>
-                        </span>
-                    )}
-                    <ChevronRight
-                        size={20}
-                        className={`text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`}
-                    />
-                </div>
-            </div>
-
-            {/* Dropdown */}
-            {isOpen && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl border border-gray-100 shadow-lg z-50 overflow-hidden">
-                    {AVAILABLE_LANGUAGES.map((language) => (
-                        <div
-                            key={language.code}
-                            onClick={() => handleLanguageSelect(language)}
-                            className={`flex items-center justify-between p-4 hover:bg-gray-50 cursor-pointer transition-colors ${
-                                selectedLanguage.code === language.code ? 'bg-blue-50' : ''
-                            }`}
+            {/* ================== MOBILE HEADER (< 640px) ================== */}
+            <header className="sm:hidden bg-white border-b border-gray-200 sticky top-0 z-40">
+                <div className="px-4 py-3">
+                    <div className="flex items-center justify-between">
+                        <button
+                            onClick={() => navigate('/')}
+                            className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center 
+                                hover:bg-gray-200 transition-colors text-gray-600"
                         >
-                            <div className="flex items-center gap-3">
-                                <span className="text-2xl">{language.flag}</span>
-                                <div className="flex flex-col">
-                                    <span className="font-medium text-gray-800">
-                                        {language.name}
-                                    </span>
-                                    <span className="text-sm text-gray-500">
-                                        {language.nativeName}
-                                    </span>
-                                </div>
-                            </div>
+                            <ChevronLeft size={20} />
+                        </button>
 
-                            {selectedLanguage.code === language.code && (
-                                <Check size={20} className="text-blue-500" />
+                        <h1 className="font-semibold text-gray-800">
+                            {getSectionTitle()}
+                        </h1>
+
+                        <div className="relative" ref={menuRef}>
+                            <button
+                                onClick={() => setMenuOpen(!menuOpen)}
+                                className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center 
+                                    hover:bg-gray-200 transition-colors text-gray-600"
+                            >
+                                {menuOpen ? <X size={20} /> : <MoreVertical size={20} />}
+                            </button>
+
+                            {menuOpen && (
+                                <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
+                                    <MobileMenuItem
+                                        icon={User}
+                                        label="Personal Info"
+                                        isActive={activeSection === 'personal-info'}
+                                        onClick={() => handleSectionChange('personal-info')}
+                                    />
+                                    <MobileMenuItem
+                                        icon={CreditCard}
+                                        label="My Bookings"
+                                        isActive={activeSection === 'bookings'}
+                                        onClick={() => handleSectionChange('bookings')}
+                                    />
+                                    <MobileMenuItem
+                                        icon={Lock}
+                                        label="Security"
+                                        isActive={activeSection === 'security'}
+                                        onClick={() => handleSectionChange('security')}
+                                    />
+
+                                    <div className="my-2 border-t border-gray-100" />
+
+                                    <MobileLanguageSelector />
+
+                                    <div className="my-2 border-t border-gray-100" />
+
+                                    <MobileMenuItem
+                                        icon={LogOut}
+                                        label="Logout"
+                                        isDestructive
+                                        onClick={handleLogout}
+                                    />
+                                </div>
                             )}
                         </div>
-                    ))}
+                    </div>
                 </div>
-            )}
+            </header>
+
+            {/* ================== MAIN LAYOUT ================== */}
+            <div className="flex">
+                {/* ================== SIDEBAR (≥ 640px) ================== */}
+                <aside className="hidden sm:flex sm:flex-col sm:w-72 md:w-80 lg:w-96 bg-white border-r border-gray-200 min-h-screen p-4 md:p-6">
+                    <button
+                        onClick={() => navigate('/')}
+                        className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center 
+                            hover:bg-gray-200 transition-colors text-gray-600 mb-4 md:mb-6"
+                    >
+                        <ChevronLeft size={22} />
+                    </button>
+
+                    <div className="relative rounded-2xl p-px bg-gradient-to-b from-[#4A90E2] to-[#DE3163] mb-4 md:mb-6">
+                        <div className="rounded-2xl p-3 md:p-4 bg-white flex items-center gap-3 md:gap-4">
+                            <Avatar
+                                src={getUserAvatar(user)}
+                                size="md"
+                                editable
+                                uploading={uploadingImage}
+                                onImageSelect={uploadImage}
+                            />
+                            <div className="flex-1 min-w-0">
+                                <h2 className="text-base md:text-lg font-bold text-slate-700 truncate">
+                                    {loading ? (
+                                        <span className="flex items-center gap-2">
+                                            <Loader2 size={16} className="animate-spin" />
+                                            Loading...
+                                        </span>
+                                    ) : (
+                                        getUserDisplayName(user)
+                                    )}
+                                </h2>
+                                <p className="text-slate-500 text-xs md:text-sm truncate">
+                                    {user?.email || 'guest@example.com'}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <nav className="flex flex-col gap-2 flex-1">
+                        <MenuItem
+                            icon={User}
+                            label="Personal Info"
+                            isActive={activeSection === 'personal-info'}
+                            onClick={() => setActiveSection('personal-info')}
+                        />
+                        <MenuItem
+                            icon={CreditCard}
+                            label="My Booking"
+                            isActive={activeSection === 'bookings'}
+                            onClick={() => setActiveSection('bookings')}
+                        />
+                        <LanguageSelector />
+                        <MenuItem
+                            icon={Lock}
+                            label="Account & Security"
+                            isActive={activeSection === 'security'}
+                            onClick={() => setActiveSection('security')}
+                        />
+
+                        <div className="mt-auto pt-4 md:pt-6">
+                            <MenuItem
+                                icon={LogOut}
+                                label="Logout"
+                                isDestructive
+                                onClick={logout}
+                            />
+                        </div>
+                    </nav>
+                </aside>
+
+                {/* ================== CONTENT ================== */}
+                <main className="flex-1 p-4 sm:p-6 lg:p-8">
+                    <div className="max-w-2xl mx-auto">
+                        {renderContent()}
+                    </div>
+                </main>
+            </div>
         </div>
     );
 };
 
-// ============================================
-// Main Component
-// ============================================
+// ================== MOBILE COMPONENTS ==================
 
-const ProfileSettings: React.FC = () => {
-    const navigate = useNavigate();
+interface MobileMenuItemProps {
+    icon: React.ElementType;
+    label: string;
+    onClick: () => void;
+    isActive?: boolean;
+    isDestructive?: boolean;
+}
 
-    const handleBookingClick = (): void => {
-        toast("You don't have any bookings yet!", {
-            style: {
-                borderRadius: '10px',
-                background: '#333',
-                color: '#fff',
-            },
-        });
-    };
+const MobileMenuItem: React.FC<MobileMenuItemProps> = ({
+    icon: Icon,
+    label,
+    onClick,
+    isActive = false,
+    isDestructive = false
+}) => {
+    return (
+        <button
+            onClick={onClick}
+            className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors
+                ${isActive
+                    ? 'bg-blue-50 text-blue-600'
+                    : isDestructive
+                        ? 'text-red-500 hover:bg-red-50'
+                        : 'text-gray-700 hover:bg-gray-50'
+                }`}
+        >
+            <Icon size={18} />
+            <span className="font-medium text-sm">{label}</span>
+            {isActive && (
+                <div className="ml-auto w-2 h-2 rounded-full bg-blue-500" />
+            )}
+        </button>
+    );
+};
 
-    const handleLogout = (): void => {
-        toast.loading('Logging out...', {
-            duration: 1500,
-            style: {
-                borderRadius: '10px',
-                background: '#333',
-                color: '#fff',
-            },
-        });
+const MobileLanguageSelector: React.FC = () => {
+    const [isOpen, setIsOpen] = useState(false);
 
-        setTimeout(() => {
-            navigate('/login');
-        }, 1500);
+    const languages = [
+        { code: 'en', name: 'English', flag: '🇺🇸' },
+        { code: 'ar', name: 'العربية', flag: '🇸🇦' },
+    ];
+
+    const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+    const selected = languages.find(l => l.code === currentLang) || languages[0];
+
+    const handleSelect = (code: string) => {
+        localStorage.setItem('selectedLanguage', code);
+        setIsOpen(false);
+        window.location.reload();
     };
 
     return (
-        <div className="min-h-screen bg-white flex flex-col items-center justify-start pt-10 px-4 pb-10">
-            <Toaster position="top-center" reverseOrder={false} />
+        <div className="px-2">
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="w-full flex items-center gap-3 px-2 py-2.5 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+                <Globe size={18} />
+                <span className="font-medium text-sm">Language</span>
+                <span className="ml-auto text-sm text-gray-500">
+                    {selected.flag} {selected.name}
+                </span>
+            </button>
 
-            <div className="w-full max-w-3xl space-y-6">
-
-                {/* User Profile Card */}
-                <div className="relative rounded-[24px] p-px bg-gradient-to-b from-[#4A90E2] to-[#DE3163]">
-                    <div className="w-full rounded-[23px] p-6 flex items-center gap-6 bg-white">
-                        <div className="relative">
-                            <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-white shadow-sm">
-                                <img
-                                    src={profile}
-                                    alt="User Profile"
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
-                            <button
-                                className="absolute bottom-0 right-0 bg-blue-100 p-2 rounded-xl border-2 border-white hover:bg-blue-200 transition-colors"
-                                aria-label="Change profile picture"
-                            >
-                                <Camera size={18} className="text-blue-600" />
-                            </button>
-                        </div>
-
-                        <div className="flex flex-col">
-                            <h2 className="text-2xl font-bold text-slate-700 mb-1">Knee Due</h2>
-                            <p className="text-slate-500 text-lg">kneedue@gmail.com</p>
-                        </div>
-                    </div>
+            {isOpen && (
+                <div className="mt-1 bg-gray-50 rounded-lg overflow-hidden">
+                    {languages.map((lang) => (
+                        <button
+                            key={lang.code}
+                            onClick={() => handleSelect(lang.code)}
+                            className={`w-full flex items-center gap-2 px-4 py-2 text-sm transition-colors
+                                ${lang.code === currentLang
+                                    ? 'bg-blue-100 text-blue-600'
+                                    : 'hover:bg-gray-100 text-gray-600'
+                                }`}
+                        >
+                            <span>{lang.flag}</span>
+                            <span>{lang.name}</span>
+                        </button>
+                    ))}
                 </div>
-
-                {/* Settings Menu */}
-                <div className="relative rounded-[24px] p-px bg-gradient-to-b from-[#4A90E2] to-[#DE3163]">
-                    <div className="w-full rounded-[23px] p-6 space-y-4 bg-white">
-                        
-                        <MenuItem
-                            icon={User}
-                            label="Personal Info"
-                            onClick={() => navigate("/personal-info")}
-                        />
-
-                        <MenuItem
-                            icon={CreditCard}
-                            label="My Booking"
-                            onClick={handleBookingClick}
-                        />
-
-                        <LanguageSelector />
-
-                        <MenuItem
-                            icon={Lock}
-                            label="Account & Security"
-                            onClick={() => navigate("/security")}
-                        />
-
-                        <div className="pt-2">
-                            <MenuItem
-                                icon={LogOut}
-                                label="Logout"
-                                isDestructive={true}
-                                onClick={handleLogout}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+            )}
         </div>
     );
 };

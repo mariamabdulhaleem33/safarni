@@ -4,7 +4,8 @@ import { Logo } from "./Logo";
 import { NavigationLinks } from "./NavigationLinks";
 import { NavbarActions } from "./NavbarActions";
 import { MenuIcon, CloseIcon, SearchIcon, FilterIcon } from "../../icons";
-import userImage from "../../../assets/user.png";
+import UserButton from "./UserButton";
+import { useUserProfile } from "@/hooks/useUserProfile";
 
 interface NavbarProps {
   userPhotoUrl?: string;
@@ -14,13 +15,13 @@ interface NavbarProps {
 }
 
 export const Navbar = ({
-  userPhotoUrl,
   onSearchClick,
   onFilterClick,
   onUserClick,
 }: NavbarProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { avatarUrl } = useUserProfile();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 w-full h-14 sm:h-16 md:h-20 bg-white">
@@ -35,7 +36,7 @@ export const Navbar = ({
         {/* Desktop Actions */}
         <div className="hidden lg:block">
           <NavbarActions
-            userPhotoUrl={userPhotoUrl}
+            userPhotoUrl={avatarUrl}
             onSearchClick={onSearchClick}
             onFilterClick={onFilterClick}
             onUserClick={onUserClick}
@@ -61,20 +62,11 @@ export const Navbar = ({
           >
             <FilterIcon className="w-5 h-5" />
           </button>
-          <button
-            onClick={() => {
-              onUserClick?.();
-              navigate("/profile");
-            }}
-            className="flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 p-1"
-            aria-label="User profile"
-          >
-            <img
-              src={userPhotoUrl || userImage}
-              alt="User profile"
-              className="w-5 h-5 sm:w-6 sm:h-6 rounded-full object-cover"
-            />
-          </button>
+          <UserButton
+            userPhotoUrl={avatarUrl}
+            onUserClick={onUserClick}
+            style={"w-5 h-5 sm:w-6 sm:h-6 rounded-full object-cover"}
+          />
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 p-1"

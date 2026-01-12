@@ -1,10 +1,10 @@
-import type { OTPResponse } from "@/types/PasswordManagement.types"
+import type { OTPResponse } from "@/types/passwordManagement.types";
 
-export const transformOTPResponse = (data:any) =>{
-    const FormattedData:OTPResponse ={
-        message:data.message,
-        token:data.data.token,
-        user_id:data.data.user.id,
-    }
-    return FormattedData
-}
+export const transformOTPResponse = (data: any) => {
+  const FormattedData: OTPResponse = {
+    message: data.message,
+    token: data.data.token,
+    user_id: data.data.user.id,
+  };
+  return FormattedData;
+};

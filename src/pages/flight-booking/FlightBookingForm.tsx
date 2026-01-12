@@ -1,7 +1,6 @@
-
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
-import  Plane  from "@/assets/plane.png";
+import Plane from "@/assets/plane.png";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -19,35 +18,39 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { searchFlights } from "@/api/flight-booking/search-flights.ts";
 
 const formSchema = z.object({
-  tripType: z.enum(["round", "multi", "oneway"]),
-  location: z.string().min(6),
-  destination: z.string().min(6),
-  departure: z.string(),
-  return: z.string(),
+  type: z.enum(["round-trip", "one-way"]),
+  from: z.string().min(3),
+  to: z.string().min(3),
+  departure_date: z.string(),
   passengers: z.string(),
 });
 
 export function FlightBookingForm() {
   const form = useForm({
     defaultValues: {
-      tripType: "round",
-      location: "",
-      destination: "",
-      departure: "",
-      return: "",
+      type: "round-trip",
+      from: "",
+      to: "",
+      departure_date: "",
       passengers: "1",
     },
     validators: {
       onBlur: formSchema,
       onSubmit: formSchema,
     },
-    onSubmit: ({ value }) => {
-      console.log("Search Flights:", value);
-    },
-  });
 
+    onSubmit: ({ value }) => {
+      const payload = { ...value, passengers: Number(value.passengers) };
+      searchFlights(payload);
+    },
+    // onSubmit: ({ value }) => {
+    //   console.log("Search Flights:", value);
+    //   searchFlights(value);
+    // },
+  });
 
   return (
     <div className="flex w-full items-center justify-center p-4 flex-column gap-30">
@@ -61,7 +64,7 @@ export function FlightBookingForm() {
         <CardContent className="space-y-8 p-0">
           {/* Trip Type */}
           <form.Field
-            name="tripType"
+            name="type"
             children={field => (
               <Tabs
                 value={field.state.value}
@@ -69,19 +72,14 @@ export function FlightBookingForm() {
               >
                 <TabsList className="grid grid-cols-3 rounded-full bg-color-none gap-5">
                   <TabsTrigger
-                    value="round"
+                    value="round-trip"
                     className="rounded-full bg-muted data-[state=active]:bg-green-50 data-[state=active]:text-blue-600 p-4"
                   >
                     🔄 Round Trip
                   </TabsTrigger>
+
                   <TabsTrigger
-                    value="multi"
-                    className="rounded-full bg-muted data-[state=active]:bg-green-50 data-[state=active]:text-blue-600 p-4"
-                  >
-                    🔁 Multi City
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="oneway"
+                    value="one-way"
                     className="rounded-full bg-muted data-[state=active]:bg-green-50 data-[state=active]:text-blue-600 p-4"
                   >
                     ➡ One Way
@@ -93,7 +91,7 @@ export function FlightBookingForm() {
 
           {/* Location */}
           <form.Field
-            name="location"
+            name="from"
             children={field => (
               <Field>
                 <FieldLabel>Location</FieldLabel>
@@ -111,7 +109,7 @@ export function FlightBookingForm() {
 
           {/* Destination */}
           <form.Field
-            name="destination"
+            name="to"
             children={field => (
               <Field>
                 <FieldLabel>Destination</FieldLabel>
@@ -130,7 +128,7 @@ export function FlightBookingForm() {
           {/* Dates */}
           <div className="grid grid-cols-2 gap-4">
             <form.Field
-              name="departure"
+              name="departure_date"
               children={field => (
                 <Field>
                   <FieldLabel>Departure</FieldLabel>
@@ -143,23 +141,6 @@ export function FlightBookingForm() {
                 </Field>
               )}
             />
-
-            {form.state.values.tripType === "round" && (
-              <form.Field
-                name="return"
-                children={field => (
-                  <Field>
-                    <FieldLabel>Return</FieldLabel>
-                    <Input
-                      type="date"
-                      value={field.state.value}
-                      onChange={e => field.handleChange(e.target.value)}
-                      className="rounded-sm"
-                    />
-                  </Field>
-                )}
-              />
-            )}
           </div>
 
           {/* Passengers */}

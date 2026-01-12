@@ -10,23 +10,34 @@ import CheckInOutContent from "../../components/hotel/CheckInOutForm";
 import { hotelApi } from "../../services/hotelApi";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { 
-  setCurrentHotel, 
-  setLoading, 
-  setError, 
+import {
+  setCurrentHotel,
+  setLoading,
+  setError,
   setReviews,
-  clearHotelData 
+  clearHotelData,
 } from "../../store/slices/hotelSlice";
-import { addHotelReview, markReviewAsHelpful, uploadHotelPhoto } from "@/store/slices/hotelActions";
+import {
+  addHotelReview,
+  markReviewAsHelpful,
+  uploadHotelPhoto,
+} from "@/store/slices/hotelActions";
 
 const HotelAboutPage: React.FC = () => {
-  const { hotelId, tab = "about" } = useParams<{ hotelId: string; tab?: string }>();
+  const { hotelId, tab = "about" } = useParams<{
+    hotelId: string;
+    tab?: string;
+  }>();
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
-  
-  const { currentHotel: hotel, reviews: reviewsData, loading: loadingHotel } = useAppSelector((state) => state.hotel);
-  
+
+  const {
+    currentHotel: hotel,
+    reviews: reviewsData,
+    loading: loadingHotel,
+  } = useAppSelector((state) => state.hotel);
+
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [showBooking, setShowBooking] = useState(false);
 
@@ -58,19 +69,24 @@ const HotelAboutPage: React.FC = () => {
 
   const initializeHotelData = (hotelData: any) => {
     dispatch(setLoading(true));
-    
+
     try {
-      if (!hotelData || typeof hotelData !== 'object') {
-        throw new Error('Invalid hotel data format');
+      if (!hotelData || typeof hotelData !== "object") {
+        throw new Error("Invalid hotel data format");
       }
 
       const formattedHotel = {
         id: Number(hotelData.id || hotelId || 0),
-        name: hotelData.name || `Hotel ${hotelId || 'Unknown'}`,
+        name: hotelData.name || `Hotel ${hotelId || "Unknown"}`,
         location: hotelData.location || "Location not available",
         rating: parseFloat(hotelData.rating) || 4.5,
-        about: hotelData.description || hotelData.content_info || hotelData.about || 
-               `Welcome to ${hotelData.name || `Hotel ${hotelId}`}. This is a luxurious hotel offering premium amenities and exceptional service.`,
+        about:
+          hotelData.description ||
+          hotelData.content_info ||
+          hotelData.about ||
+          `Welcome to ${
+            hotelData.name || `Hotel ${hotelId}`
+          }. This is a luxurious hotel offering premium amenities and exceptional service.`,
         phone: hotelData.phone || "+123 456 7890",
         amenities: Array.isArray(hotelData.amenities) ? hotelData.amenities : [
           "Free WiFi",
@@ -146,9 +162,9 @@ const HotelAboutPage: React.FC = () => {
 
   const fetchHotelData = async () => {
     if (!hotelId) return;
-    
+
     dispatch(setLoading(true));
-    
+
     try {
       const hotelResponse = await hotelApi.getHotelById(hotelId);
       const hotelData = hotelResponse.data;
@@ -193,7 +209,7 @@ const HotelAboutPage: React.FC = () => {
   };
 
   const handleHelpful = async (reviewId: number) => {
-    const review = reviewsData.find(r => r.id === reviewId);
+    const review = reviewsData.find((r) => r.id === reviewId);
     if (review) {
       await dispatch(markReviewAsHelpful(reviewId, review.helpful));
     }
@@ -202,9 +218,9 @@ const HotelAboutPage: React.FC = () => {
   const handleAddPhoto = async (photo: File) => {
     try {
       await dispatch(uploadHotelPhoto(photo));
-      alert('Photo added successfully!');
+      alert("Photo added successfully!");
     } catch (error) {
-      alert('Failed to add photo. Please try again.');
+      alert("Failed to add photo. Please try again.");
     }
   };
 
@@ -212,7 +228,9 @@ const HotelAboutPage: React.FC = () => {
 
   const renderContent = () => {
     if (showBooking && hotel) {
-      return <CheckInOutContent hotel={hotel} onBack={() => setShowBooking(false)} />;
+      return (
+        <CheckInOutContent hotel={hotel} onBack={() => setShowBooking(false)} />
+      );
     }
 
     if (loadingHotel) {
@@ -232,7 +250,7 @@ const HotelAboutPage: React.FC = () => {
         <div className="bg-white rounded-xl shadow-md p-6 text-center">
           <p className="text-gray-500">Hotel data not available</p>
           <button
-            onClick={() => navigate('/hotel')}
+            onClick={() => navigate("/hotel")}
             className="mt-4 text-blue-600 hover:text-blue-800"
           >
             Back to Hotels List
@@ -248,7 +266,7 @@ const HotelAboutPage: React.FC = () => {
         return <HotelGallery onAddPhoto={handleAddPhoto} />;
       case "reviews":
         return (
-          <HotelReviews 
+          <HotelReviews
             onReviewFormToggle={setShowReviewForm}
             onAddReview={handleAddReview}
             onHelpful={handleHelpful}
@@ -279,11 +297,16 @@ const HotelAboutPage: React.FC = () => {
             <div className="h-full overflow-hidden rounded-xl lg:rounded-none">
               {hotel ? (
                 <img
-                  src={hotel.gallery?.[0] || hotel.image || 'https://images.unsplash.com/photo-1566073771259-6a8506099945'}
+                  src={
+                    hotel.gallery?.[0] ||
+                    hotel.image ||
+                    "https://images.unsplash.com/photo-1566073771259-6a8506099945"
+                  }
                   alt={hotel.name}
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1566073771259-6a8506099945';
+                    (e.target as HTMLImageElement).src =
+                      "https://images.unsplash.com/photo-1566073771259-6a8506099945";
                   }}
                 />
               ) : (
@@ -386,7 +409,8 @@ const HotelAboutPage: React.FC = () => {
                       </span>
                     </h4>
                     <p className="text-sm text-gray-500 mt-2">
-                      {hotel.nights || 1} nights • ${hotel.pricePerNight || 0}/night
+                      {hotel.nights || 1} nights • ${hotel.pricePerNight || 0}
+                      /night
                       {(hotel.discountPercentage || 0) > 0 && (
                         <span className="text-green-600 ml-2">
                           • {hotel.discountPercentage}% discount applied
