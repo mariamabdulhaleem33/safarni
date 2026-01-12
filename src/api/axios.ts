@@ -4,6 +4,7 @@ import axios, {
   type AxiosError,
 } from "axios"
 import { toast } from "react-hot-toast"
+console.log(import.meta.env.VITE_BASE_URL);
 
 const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
