@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import { ForgotPassAPI } from "@/services/PasswordMamagement/forgot-password.api";
+import { ForgotPassAPI } from "@/services/passwordMamagementServices/forgot-password.api";
 import { AxiosError } from "axios";
-import type { ForgotPassResponse } from "@/types/PasswordManagement.types";
+import type { ForgotPassResponse } from "@/types/passwordManagement.types";
 import { toast } from "sonner";
 
 interface ApiError {
@@ -21,8 +21,7 @@ export const useResendOTP = () => {
     },
 
     onError: (error) => {
-      const message =
-        error.response?.data?.message || "Failed to resend OTP";
+      const message = error.response?.data?.message || "Failed to resend OTP";
       toast.error(message);
     },
   });

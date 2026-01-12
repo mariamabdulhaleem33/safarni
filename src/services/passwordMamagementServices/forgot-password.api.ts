@@ -1,8 +1,8 @@
 import type {
   ForgotPassFormData,
   ForgotPassResponse,
-} from "@/types/PasswordManagement.types";
-import api from "../api";
+} from "@/types/passwordManagement.types";
+import api from "@/api/axios";
 
 export const ForgotPassAPI = async (
   forgotPassData: ForgotPassFormData

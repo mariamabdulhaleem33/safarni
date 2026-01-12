@@ -4,13 +4,13 @@ import { Home } from "../pages/home/Home"
 import SignUpPage from "@/pages/auth/signup/SignUpPage"
 import WelcomePage from "@/pages/auth/welcome/WelcomePage"
 import LoginPage from "@/pages/auth/login/LoginPage"
-import ForgotPassword from "@/pages/password-management/ForgotPassword"
-import OTPVerification from "@/pages/password-management/OTPVerification"
+import ForgotPassword from "@/pages/auth/passwordManagementPages/ForgotPassword"
+import OTPVerification from "@/pages/auth/passwordManagementPages/OTPVerification"
 import FlightBooking from "@/pages/flight-booking/FlightBooking"
 import SeatBookingPage from "@/pages/flight-booking/SeatBookingPage"
 import AuthLayout from "@/components/layout/AuthLayout"
-import NewPassword from "@/pages/password-management/NewPassword"
-import ResetPassSuccess from "@/pages/password-management/Success"
+import NewPassword from "@/pages/auth/passwordManagementPages/NewPassword"
+import ResetPassSuccess from "@/pages/auth/passwordManagementPages/Success"
 
 import HotelPage from "@/pages/hotel/HotelPage"
 import HotelAboutPage from "@/pages/hotel/HotelAboutPage"
@@ -63,6 +63,19 @@ export default function AppRoutes() {
               </div>
             }
           />
+          <Route path="payment/:id" element={<PaymentPage />} />
+          <Route path="payment/success" element={<SuccessPage />} />
+          <Route path="payment/error/:paymentId" element={<ErrorPage />} />
+        </Route>
+        <Route path="/auth" element={<AuthLayout />}>
+          <Route path="welcome" element={<WelcomePage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="signup" element={<SignUpPage />} />
+          <Route index element={<Navigate to="/welcome" replace />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="otp-verify" element={<OTPVerification />} />
+          <Route path="new-password" element={<NewPassword />} />
+          <Route path="success" element={<ResetPassSuccess />} />
         </Route>
         <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/login" element={<LoginPage />} />

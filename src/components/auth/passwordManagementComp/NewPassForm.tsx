@@ -1,12 +1,12 @@
 import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { NewPassFormData } from "@/types/PasswordManagement.types";
-import { newPassSchema } from "@/lib/schemas/passwordManage.schemas";
+import type { NewPassFormData } from "@/types/passwordManagement.types";
+import { newPassSchema, passwordRegex } from "@/lib/schemas/passwordManage.schemas";
 import PasswordRule from "./PasswordRule";
-import { InputGroupButton } from "../ui/input-group";
+import { InputGroupButton } from "../../ui/input-group";
 import PasswordInput from "./PasswordInput";
-import { useResetPassword } from "@/hooks/password-management/useResetPassword";
+import { useResetPassword } from "@/hooks/auth/passwordManagementHooks/useResetPassword";
 import { Loader2 } from "lucide-react";
 
 type NewPassFormProp = {
@@ -27,7 +27,7 @@ const NewPassForm: FC<NewPassFormProp> = ({ user_id, otp }) => {
   });
   const password = watch("password") || "";
   const isPasswordLengthValid = password.length >= 8;
-  const isPasswordFormatValid = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(
+  const isPasswordFormatValid = passwordRegex.test(
     password
   );
   const NewPassFormInputs = [
@@ -38,7 +38,9 @@ const NewPassForm: FC<NewPassFormProp> = ({ user_id, otp }) => {
       register: { ...register("password") },
       isSubmitting: isPending,
       error: errors.password && (
-        <p className="text-red-500 text-sm md:text-md lg:text-lg self-start">{errors.password.message}</p>
+        <p className="text-red-500 text-sm md:text-md lg:text-lg self-start">
+          {errors.password.message}
+        </p>
       ),
     },
     {
@@ -62,7 +64,7 @@ const NewPassForm: FC<NewPassFormProp> = ({ user_id, otp }) => {
     },
     {
       valid: isPasswordFormatValid,
-      message: "Must contain one special character",
+      message: "Includes upper, lower, number & symbol",
     },
   ];
 

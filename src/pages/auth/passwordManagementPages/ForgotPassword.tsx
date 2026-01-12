@@ -2,7 +2,7 @@ import Logo from "@/components/ui/Logo";
 import forgotPassImg from "@/assets/forgotPassImg.png";
 import type { FC } from "react";
 import { KeyRound } from "lucide-react";
-import ForgotPassForm from "@/components/password-management/ForgotPassForm";
+import ForgotPassForm from "@/components/auth/passwordManagementComp/ForgotPassForm";
 
 import BackButton from "@/components/backButton";
 

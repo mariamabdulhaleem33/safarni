@@ -1,8 +1,8 @@
 import type {
   NewPassFormData,
   NewPassResponse,
-} from "@/types/PasswordManagement.types";
-import api from "../api";
+} from "@/types/passwordManagement.types";
+import api from "@/api/axios";
 
 export const ResetPassAPI = async (
   NewPassFormData: NewPassFormData

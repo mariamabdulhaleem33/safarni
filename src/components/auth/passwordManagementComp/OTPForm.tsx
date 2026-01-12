@@ -1,14 +1,14 @@
 import type { FC } from "react";
-import OTPInput from "../ui/OTPInput";
-import { Button } from "../ui/button";
-import { useOTPTimer } from "@/hooks/password-management/useOTPTimer";
+import OTPInput from "../../ui/OTPInput";
+import { Button } from "../../ui/button";
+import { useOTPTimer } from "@/hooks/auth/passwordManagementHooks/useOTPTimer";
 import { otpSchema } from "@/lib/schemas/passwordManage.schemas";
-import { type OTPFormValues } from "@/types/PasswordManagement.types";
+import { type OTPFormValues } from "@/types/passwordManagement.types";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useOTPVerify } from "@/hooks/password-management/useOTPVerify";
+import { useOTPVerify } from "@/hooks/auth/passwordManagementHooks/useOTPVerify";
 import { Loader2 } from "lucide-react";
-import { useResendOTP } from "@/hooks/password-management/useResendOTP";
+import { useResendOTP } from "@/hooks/auth/passwordManagementHooks/useResendOTP";
 
 type OTPFormProps = {
   user_id: number;
@@ -58,7 +58,11 @@ const OTPForm: FC<OTPFormProps> = ({ user_id, email }) => {
           <OTPInput value={field.value} onChange={field.onChange} />
         )}
       />
-      {errors.otp && <p className="text-red-500 text-sm md:text-md lg:text-lg">{errors.otp.message}</p>}
+      {errors.otp && (
+        <p className="text-red-500 text-sm md:text-md lg:text-lg">
+          {errors.otp.message}
+        </p>
+      )}
       <p className="text-sm lg:text-lg">
         OTP not receive?{" "}
         <button

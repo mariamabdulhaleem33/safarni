@@ -27,7 +27,7 @@ const Success: FC = () => {
             </p>
           </div>
           <Button className="w-full h-10 lg:h-12 rounded-sm texy-md lg:text-xl font-semibold bg-blue-800 text-white cursor-pointer hover:text-white hover:bg-blue-900">
-            <Link to="/login" className="w-full">Log In</Link>
+            <Link to="/auth/login" className="w-full">Log In</Link>
           </Button>
         </div>
       </div>

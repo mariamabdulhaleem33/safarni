@@ -7,11 +7,11 @@ import {
   InputGroupButton,
   InputGroupInput,
   InputGroupText,
-} from "../ui/input-group";
+} from "../../ui/input-group";
 import { Loader2, MailIcon } from "lucide-react";
-import type { ForgotPassFormData } from "@/types/PasswordManagement.types";
+import type { ForgotPassFormData } from "@/types/passwordManagement.types";
 import { ForgotPassSchema } from "@/lib/schemas/passwordManage.schemas";
-import { useForgotPassword } from "@/hooks/password-management/useForgotPassword";
+import { useForgotPassword } from "@/hooks/auth/passwordManagementHooks/useForgotPassword";
 
 const ForgotPassForm: FC = () => {
   const { mutate, isPending } = useForgotPassword();
@@ -53,14 +53,23 @@ const ForgotPassForm: FC = () => {
         </InputGroup>
       </div>
       {errors.email && (
-        <p className="text-red-500 text-sm md:text-md lg:text-lg self-start">{errors.email.message}</p>
+        <p className="text-red-500 text-sm md:text-md lg:text-lg self-start">
+          {errors.email.message}
+        </p>
       )}
       <InputGroupButton
         type="submit"
         disabled={isPending}
         className="w-full h-10 lg:h-12 rounded-sm text-md lg:text-xl font-semibold bg-blue-800 text-white cursor-pointer hover:text-white hover:bg-blue-900"
       >
-        {isPending ? <>Sending<Loader2  className="animate-spin" /></> : "Reset Password"}
+        {isPending ? (
+          <>
+            Sending
+            <Loader2 className="animate-spin" />
+          </>
+        ) : (
+          "Reset Password"
+        )}
       </InputGroupButton>
     </form>
   );

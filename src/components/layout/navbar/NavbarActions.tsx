@@ -1,6 +1,6 @@
 import { SearchIcon, FilterIcon } from "../../icons";
-import userImage from "../../../assets/user.png";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import UserButton from "./UserButton";
 
 interface NavbarActionsProps {
   userPhotoUrl?: string;
@@ -36,19 +36,11 @@ export const NavbarActions = ({
       >
         <FilterIcon className="w-5 h-5" />
       </button>
-      <button
-        onClick={() => {
-          onUserClick?.();
-          navigate("/profile");
-        }} className="flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
-        aria-label="User profile"
-      >
-        <img
-          src={userPhotoUrl || userImage}
-          alt="User profile"
-          className="w-6 h-6 sm:w-8 sm:h-8 rounded-full object-cover"
-        />
-      </button>
+      <UserButton
+        userPhotoUrl={userPhotoUrl}
+        onUserClick={onUserClick}
+        style={"w-6 h-6 sm:w-8 sm:h-8 rounded-full object-cover"}
+      />
     </div>
   );
 };

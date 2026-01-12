@@ -1,8 +1,8 @@
 import type {
   OTPFormValues,
   OTPResponse,
-} from "@/types/PasswordManagement.types";
-import api from "../api";
+} from "@/types/passwordManagement.types";
+import api from "@/api/axios";
 import { transformOTPResponse } from "@/utils/transformOTPResponse";
 
 export const OTPVerifyAPI = async (

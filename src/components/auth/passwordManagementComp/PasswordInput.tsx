@@ -4,7 +4,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
   InputGroupText,
-} from "../ui/input-group";
+} from "../../ui/input-group";
 import { LockIcon } from "lucide-react";
 
 type PasswordInputProps = {
@@ -13,7 +13,7 @@ type PasswordInputProps = {
   type: string;
   placeholder: string;
   register: object;
-  error: ReactNode | undefined
+  error: ReactNode | undefined;
 };
 
 const PasswordInput: FC<PasswordInputProps> = ({
@@ -22,7 +22,7 @@ const PasswordInput: FC<PasswordInputProps> = ({
   type,
   placeholder,
   register,
-  error
+  error,
 }) => {
   return (
     <div className="w-full flex flex-col justify-center gap-1">
@@ -31,7 +31,7 @@ const PasswordInput: FC<PasswordInputProps> = ({
       </InputGroupText>
       <InputGroup className={` w-full h-10 lg:h-12 rounded-sm shadow-xs`}>
         <InputGroupInput
-        className="text-sm lg:text-lg w-full"
+          className="text-sm lg:text-lg w-full"
           disabled={isSubmitting}
           type={type}
           placeholder={placeholder}

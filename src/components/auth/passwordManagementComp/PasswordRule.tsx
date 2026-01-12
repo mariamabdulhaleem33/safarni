@@ -17,7 +17,7 @@ const PasswordRule:FC<PasswordRuleProps>=({valid, message})=>{
           <p
             className={`${
               valid ? "text-green-500" : "text-gray-500"
-            } text-xs sm:text-sm md:text-xs lg:text-lg`}
+            } text-xs lg:text-lg`}
           >
             {message}
           </p>

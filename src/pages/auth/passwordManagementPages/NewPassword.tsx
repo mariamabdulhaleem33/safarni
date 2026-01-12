@@ -3,12 +3,12 @@ import forgotPassImg from "@/assets/forgotPassImg.png";
 import type { FC } from "react";
 import { ArrowLeft, Lock } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import NewPassForm from "@/components/password-management/NewPassForm";
+import NewPassForm from "@/components/auth/passwordManagementComp/NewPassForm";
 import BackButton from "@/components/backButton";
 
 const NewPassword: FC = () => {
   const location = useLocation();
-  const user_id = location.state.user_id;
+  const user_id = location.state.id;
   const otp = location.state.otp;
   return (
     <div className="auth-component-layout">
@@ -18,6 +18,7 @@ const NewPassword: FC = () => {
           <BackButton />
           <img
             src={forgotPassImg}
+            alt="reset password img"
             className="w-full self-start object-contain"
           />
         </div>
@@ -34,7 +35,7 @@ const NewPassword: FC = () => {
           <NewPassForm user_id={user_id} otp={otp} />
           <Link
             className="flex justify-center items-center gap-1 md:gap-2 cursor-pointer"
-            to="/login"
+            to="/auth/login"
           >
             <ArrowLeft className="text-gray-400" />
             <p className="text-sm lg:text-lg font-medium text-gray-900">

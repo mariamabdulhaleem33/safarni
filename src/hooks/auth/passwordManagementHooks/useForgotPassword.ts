@@ -3,9 +3,9 @@ import { useMutation } from "@tanstack/react-query";
 import {
   type ForgotPassFormData,
   type ForgotPassResponse,
-} from "@/types/PasswordManagement.types";
+} from "@/types/passwordManagement.types";
 import { AxiosError } from "axios";
-import { ForgotPassAPI } from "@/services/PasswordMamagement/forgot-password.api";
+import { ForgotPassAPI } from "@/services/passwordMamagementServices/forgot-password.api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -24,11 +24,12 @@ export const useForgotPassword = () => {
     mutationFn: ForgotPassAPI,
 
     onSuccess: (_data, variables) => {
-      toast.success("OTP sent to email");
-      navigate("/auth/otp-verify", {
+      toast.success("OTP verified successfully!");
+      navigate("/auth/new-password", {
         state: {
           email: variables.email,
-          user_id:_data.data.user_id,
+          id: _data.data.user_id,
+          otp:"1234"
         },
       });
     },
@@ -36,7 +37,6 @@ export const useForgotPassword = () => {
     onError: (error) => {
       const message = error.response?.data?.message || "Something went wrong";
       toast.error(message);
-      console.log(error);
     },
   });
 };
