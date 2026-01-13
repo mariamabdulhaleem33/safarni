@@ -43,9 +43,18 @@ export default function FlightBooking() {
     try {
       const res = await getFlightSeats(flightId);
       console.log("Seats data:", res.data);
-      navigate(`/seat-booking`);
+       if (res.data.status === "success") {  console.log("Seats data data:", res.data.data);
+          navigate("/seat-booking", {
+            state: {
+              results: res.data.data, // 👈 هنا الداتا
+              flightId: flightId,
+            },
+          });
+        }
+      
     } catch (error) {
       console.error(error);
+     
     }
   };
 

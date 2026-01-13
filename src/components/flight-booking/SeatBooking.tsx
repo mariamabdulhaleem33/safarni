@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getSeatDetails } from "@/api/flight-booking/getSeatDetails";
 
 /* ================== Types ================== */
 
 type SeatStatus = "available" | "selected" | "booked";
 
 type Seat = {
+  id: number;
   number: number;
   row: number;
   status: SeatStatus;
@@ -15,70 +18,16 @@ type Row = {
   seats: Seat[];
 };
 
-/* ================== Mock Data ================== */
-
-const initialRows: Row[] = [
-  {
-    rowNumber: 1,
-    seats: [
-      { number: 1, row: 1, status: "available" },
-      { number: 2, row: 1, status: "booked" },
-      { number: 3, row: 1, status: "available" },
-      { number: 4, row: 1, status: "available" },
-      { number: 5, row: 1, status: "available" },
-    ],
-  },
-  {
-    rowNumber: 2,
-    seats: [
-      { number: 6, row: 2, status: "available" },
-      { number: 7, row: 2, status: "available" },
-      { number: 8, row: 2, status: "booked" },
-      { number: 9, row: 2, status: "available" },
-      { number: 10, row: 2, status: "available" },
-    ],
-  },
-  {
-    rowNumber: 3,
-    seats: [
-      { number: 11, row: 3, status: "available" },
-      { number: 12, row: 3, status: "available" },
-      { number: 13, row: 3, status: "booked" },
-      { number: 14, row: 3, status: "available" },
-      { number: 15, row: 3, status: "available" },
-    ],
-  },
-  {
-    rowNumber: 4,
-    seats: [
-      { number: 16, row: 4, status: "available" },
-      { number: 17, row: 4, status: "available" },
-      { number: 18, row: 4, status: "booked" },
-      { number: 19, row: 4, status: "available" },
-      { number: 20, row: 4, status: "available" },
-    ],
-  },
-  {
-    rowNumber: 5,
-    seats: [
-      { number: 21, row: 5, status: "available" },
-      { number: 22, row: 5, status: "available" },
-      { number: 23, row: 5, status: "booked" },
-      { number: 24, row: 5, status: "available" },
-      { number: 25, row: 5, status: "available" },
-    ],
-  },
-  {
-    rowNumber: 6,
-    seats: [
-      { number: 25, row: 6, status: "available" },
-      { number: 26, row: 6, status: "available" },
-      { number: 27, row: 6, status: "booked" },
-      { number: 28, row: 6, status: "available" },
-      { number: 29, row: 6, status: "available" },
-    ],
-  },
-];
+type LocationState = {
+  results: {
+    flight_seats: {
+      id: number;
+      seat_number: string;
+      status: "available" | "booked" | "locked";
+    }[];
+  };
+  flightId: number;
+};
 
 /* ================== Seat Component ================== */
 
@@ -116,22 +65,54 @@ const Seat = ({ seat, onSelect }: SeatProps) => {
 /* ================== Main Component ================== */
 
 export default function SeatBooking() {
-  const [rows, setRows] = useState<Row[]>(initialRows);
+  const { state } = useLocation();
+  const { results, flightId } = state as LocationState;
+
+  const [rows, setRows] = useState<Row[]>([]);
+  const [seatPrice, setSeatPrice] = useState<number | null>(null);
+
+  /* ====== تجهيز الداتا من API مرة واحدة ====== */
+  useEffect(() => {
+    if (!results?.flight_seats) return;
+
+    const seats = results.flight_seats.slice(0, 29).map((seat, index) => ({
+      id: seat.id,
+      number: index + 1,
+      row: Math.floor(index / 5) + 1,
+      status: seat.status === "available" ? "available" : "booked",
+    }));
+
+    const groupedRows: Row[] = [];
+
+    seats.forEach(seat => {
+      const rowIndex = groupedRows.findIndex(r => r.rowNumber === seat.row);
+
+      if (rowIndex === -1) {
+        groupedRows.push({
+          rowNumber: seat.row,
+          seats: [seat],
+        });
+      } else {
+        groupedRows[rowIndex].seats.push(seat);
+      }
+    });
+
+    setRows(groupedRows);
+  }, [results]);
+
   const selectedSeat = rows
     .flatMap(row => row.seats)
     .find(seat => seat.status === "selected");
 
-  const handleSelectSeat = (selectedSeat: Seat) => {
+  /* ====== اختيار الكرسي + API ====== */
+  const handleSelectSeat = async (selectedSeat: Seat) => {
     setRows(prev =>
       prev.map(row => ({
         ...row,
         seats: row.seats.map(seat => {
           if (seat.status === "booked") return seat;
 
-          if (
-            seat.number === selectedSeat.number &&
-            seat.row === selectedSeat.row
-          ) {
+          if (seat.id === selectedSeat.id) {
             return {
               ...seat,
               status: seat.status === "selected" ? "available" : "selected",
@@ -145,23 +126,31 @@ export default function SeatBooking() {
         }),
       })),
     );
+
+    try {
+      const res = await getSeatDetails(flightId, selectedSeat.id);
+      if (res.data.status === "success") {
+        setSeatPrice(Number(res.data.data.booking.total_amount));
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   return (
     <div className="space-y-6">
+      {/* Legend */}
       <div className="grid grid-cols-3 items-center">
-        {/* Available */}
         <div className="flex items-center gap-2">
           <span className="h-3 w-3 rounded-full bg-blue-600 block" />
           <span className="text-sm">Available</span>
         </div>
 
-        {/* Selected */}
         <div className="flex items-center gap-2 justify-self-center">
           <span className="h-3 w-3 rounded-full bg-green-500 block" />
           <span className="text-sm">Selected</span>
         </div>
 
-        {/* Unavailable */}
         <div className="flex items-center gap-2 justify-self-end">
           <span className="h-3 w-3 rounded-full bg-gray-400 block" />
           <span className="text-sm">Unavailable</span>
@@ -175,22 +164,19 @@ export default function SeatBooking() {
           </div>
 
           <div className="grid grid-cols-7 gap-5">
-            {/* Left seats */}
             {row.seats.slice(0, 2).map(seat => (
               <Seat
-                key={seat.number}
+                key={seat.id}
                 seat={seat}
                 onSelect={handleSelectSeat}
               />
             ))}
 
-            {/* Aisle */}
             <div className="col-span-2" />
 
-            {/* Right seats */}
             {row.seats.slice(2).map(seat => (
               <Seat
-                key={seat.number}
+                key={seat.id}
                 seat={seat}
                 onSelect={handleSelectSeat}
               />
@@ -198,20 +184,19 @@ export default function SeatBooking() {
           </div>
         </div>
       ))}
+
       <div className="flex justify-between">
         <div>Ticket Price</div>
-        <div className="text-blue-800 text-xl ">1500 $</div>
+        <div className="text-blue-800 text-xl">{seatPrice ?? ""} $</div>
       </div>
-      <div className="flex justify-between">
-        <div>Total Price</div>
-        <div className="text-blue-800 text-xl ">1500 $</div>
-      </div>
+
       <div className="flex justify-between">
         <div>Your Seat</div>
-        <div className="text-blue-800 text-xl ">
-          {selectedSeat ? selectedSeat.number : ""}
+        <div className="text-blue-800 text-xl">
+          {selectedSeat?.number ?? ""}
         </div>
       </div>
+
       <button
         className="w-full bg-blue-700 text-white py-3 rounded-md cursor-pointer hover:bg-blue-600 transition"
         disabled={!selectedSeat}
