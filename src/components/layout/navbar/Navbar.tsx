@@ -4,7 +4,7 @@ import { Logo } from "./Logo";
 import { NavigationLinks } from "./NavigationLinks";
 import { NavbarActions } from "./NavbarActions";
 import { MenuIcon, CloseIcon, SearchIcon, FilterIcon } from "../../icons";
-import UserButton from "./UserButton";
+import { Avatar } from "../../profile/ui/Avatar";
 import { useUserProfile } from "@/hooks/useUserProfile";
 
 interface NavbarProps {
@@ -21,7 +21,13 @@ export const Navbar = ({
 }: NavbarProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const { avatarUrl } = useUserProfile();
+  const { loading, avatarUrl } = useUserProfile();
+
+  const handleUserClick = () => {
+    onUserClick?.();
+    const token = localStorage.getItem("authToken");
+    navigate(token ? "/profile" : "/auth/login");
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 w-full h-14 sm:h-16 md:h-20 bg-white">
@@ -36,7 +42,6 @@ export const Navbar = ({
         {/* Desktop Actions */}
         <div className="hidden lg:block">
           <NavbarActions
-            userPhotoUrl={avatarUrl}
             onSearchClick={onSearchClick}
             onFilterClick={onFilterClick}
             onUserClick={onUserClick}
@@ -56,17 +61,26 @@ export const Navbar = ({
             <SearchIcon className="w-5 h-5" />
           </button>
           <button
-            onClick={onFilterClick}
+            onClick={() => {
+              onFilterClick?.();
+              navigate("/filter-panel");
+            }}
             className="flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 p-1"
             aria-label="Filter"
           >
             <FilterIcon className="w-5 h-5" />
           </button>
-          <UserButton
-            userPhotoUrl={avatarUrl}
-            onUserClick={onUserClick}
-            style={"w-5 h-5 sm:w-6 sm:h-6 rounded-full object-cover"}
-          />
+          <button
+            onClick={handleUserClick}
+            className="flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
+            aria-label="User profile"
+          >
+            {loading ? (
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-200 animate-pulse" />
+            ) : (
+              <Avatar src={avatarUrl} size="sm" />
+            )}
+          </button>
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 p-1"

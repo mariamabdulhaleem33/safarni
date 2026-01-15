@@ -93,7 +93,10 @@ export const NavbarActions = ({
       </button>
 
       <button
-        onClick={onFilterClick}
+        onClick={() => {
+          onFilterClick?.();
+          navigate("/filter-panel");
+        }}
         className="flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
         aria-label="Filter"
       >

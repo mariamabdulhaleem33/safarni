@@ -38,26 +38,28 @@ export default function AppRoutes() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
+          <Route path="favorite" element={<Favorites />} />
+          <Route path="compare" element={<CompareToursPage />} />
           <Route
-            path="favorite"
+            path="search"
             element={
-              <div className="pt-[110px] p-8">
-                <h1>Favorite Page</h1>
+              <div className="pt-27.5 p-8">
+                <Search />
               </div>
             }
           />
           <Route
-            path="compare"
+            path="filter-panel"
             element={
-              <div className="pt-[110px] p-8">
-                <h1>Compare Page</h1>
+              <div className="pt-27.5 p-8">
+                <FilterPanelPage />
               </div>
             }
           />
           <Route
             path="maps"
             element={
-              <div className="pt-[110px] p-8">
+              <div className="pt-27.5 p-8">
                 <h1>Maps Page</h1>
               </div>
             }
@@ -65,7 +67,7 @@ export default function AppRoutes() {
           <Route path="payment/:id" element={<PaymentPage />} />
           <Route path="payment/success" element={<SuccessPage />} />
           <Route path="payment/error/:paymentId" element={<ErrorPage />} />
-          <Route path="/destination" element={<Destination />} />
+          <Route path="destination" element={<Destination />} />
         </Route>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="welcome" element={<WelcomePage />} />
@@ -86,30 +88,6 @@ export default function AppRoutes() {
         <Route path="/seat-booking" element={<SeatBookingPage />} />
         <Route path="/hotel" element={<HotelPage />} />
         <Route path="/hotel/:hotelId" element={<HotelAboutPage />} />
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<Home />} />
-          <Route path="favorite" element={<Favorites />} />
-          <Route path="compare" element={<CompareToursPage />} />
-          <Route
-            path="search"
-            element={
-              <div className="pt-27.5 p-8">
-                <Search />
-              </div>
-            }
-          />
-          <Route
-            path="maps"
-            element={
-              <div className="pt-27.5 p-8">
-                <h1>Maps Page</h1>
-              </div>
-            }
-          />
-          <Route path="payment/:id" element={<PaymentPage />} />
-          <Route path="payment/success" element={<SuccessPage />} />
-          <Route path="payment/error/:paymentId" element={<ErrorPage />} />
-        </Route>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="welcome" element={<WelcomePage />} />
           <Route path="login" element={<LoginPage />} />
@@ -123,7 +101,6 @@ export default function AppRoutes() {
         <Route path="/flight-booking" element={<FlightBooking />} />
         <Route path="/seat-booking" element={<SeatBookingPage />} />
         <Route path="/boarding-pass" element={<BoardingPassPage />} />
-        <Route path="/filter-panel" element={<FilterPanelPage />} />
         <Route path="/flight-form" element={<FlightBookingForm />} />
         <Route path="/hotel" element={<HotelPage />} />
         <Route path="hotel/:hotelId" element={<HotelAboutPage />} />

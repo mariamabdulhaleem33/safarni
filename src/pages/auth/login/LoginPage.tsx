@@ -15,7 +15,7 @@ export default function LoginPage() {
       </div>
 
       <div className="absolute sm:top-15.5 sm:left-15.5  top-12 left-7 sm:text-[20px] text-[19px] lg:hidden block">
-        <Link to="/welcome">
+        <Link to="/">
           <SlArrowLeft />
         </Link>
       </div>

@@ -2,7 +2,7 @@
 
 export const getCategoryNavigationPath = (key: string): string => {
   const navigationMap: Record<string, string> = {
-    flights: "/flight-booking",
+    flights: "/flight-form",
     cars: "/cars",
     tours: "/compare",
     hotels: "/hotel",
