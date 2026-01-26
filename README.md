@@ -32,7 +32,8 @@ I worked as a **Frontend Developer**, focusing mainly on the **Password Recovery
 
 ## ⚫ Technologies Used
 
-- **React** (Functional Components & Hooks)  
+- **React**
+- **TypeScript**  
 - **Tailwind CSS**  
 - **React Hook Form**  
 - **Zod**  
