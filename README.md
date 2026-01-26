@@ -1,73 +1,67 @@
-# React + TypeScript + Vite
+# Safarni – Travel App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white)](https://reactjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![React Hook Form](https://img.shields.io/badge/React%20Hook%20Form-EC5990?style=flat)](https://react-hook-form.com/)
+[![Zod](https://img.shields.io/badge/Zod-000000?style=flat)](https://zod.dev/)
+[![TanStack Query](https://img.shields.io/badge/TanStack%20Query-FF4154?style=flat)](https://tanstack.com/query/latest)
+[![shadcn/ui](https://img.shields.io/badge/shadcn/ui-0EA5E9?style=flat)](https://ui.shadcn.com/)
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔵 Project Overview
 
-## React Compiler
+**Safarni** is a travel app that helps users explore destinations, manage bookings, and have a smooth travel experience.  
+It provides features like browsing places, booking services, and managing user accounts, all with an intuitive interface.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🟢 My Contribution (Frontend Focus)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+I worked as a **Frontend Developer**, focusing mainly on the **Password Recovery Flow**, which includes **three screens**:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- ✅ **Forgot Password** – Users can enter their registered email to request a password reset  
+- ✅ **OTP Verification** – Users receive a One-Time Password (OTP) to verify their identity  
+- ✅ **Reset Password** – Users can set a new password
+- ✅ Implemented form validation and input feedback using **React Hook Form** and **Zod**  
+- ✅ Used **shadcn/ui** components for consistent styling  
+- ✅ Managed asynchronous state and API interactions using **TanStack Query**  
+- ✅ Designed responsive and user-friendly UI for all screens  
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## ⚫ Technologies Used
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **React** (Functional Components & Hooks)  
+- **Tailwind CSS**  
+- **React Hook Form**  
+- **Zod**  
+- **TanStack Query**  
+- **shadcn/ui**  
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🟡 Screenshots
+
+### Forgot Password
+![Forgot Password](./screenshots/ForgotPassword.png)
+
+### OTP Verification
+![OTP Verification](./screenshots/OTPVerification.png)
+
+### Reset Password
+![Reset Password](./screenshots/ResetPassword.png)
+
+---
+
+## 🔴 Live Demo
+
+Check the live project here:  
+🔗 [Safarni App](https://safarni-h5a4.vercel.app/)
+
+---
+
+## 📌 Testing Hint
+
+For testing OTP functionality, use:  
+`1234`
