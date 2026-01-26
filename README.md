@@ -12,7 +12,7 @@
 
 ## 🔵 Project Overview
 
-**Safarni** is a Tour Booking Platform that helps users explore tours, manage bookings, and have a smooth travel experience.  
+**Safarni** is a Tour Booking Platform that helps users explore tours, manage flight and hotel bookings, rent cars, and have a smooth travel experience.  
 It provides features like browsing places, booking services, and managing user accounts, all with an intuitive interface.
 
 ---
