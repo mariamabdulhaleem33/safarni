@@ -1,6 +1,7 @@
 # Safarni-Tour Booking Platform
 
 [![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-00DA00?style=flat&logo=TypeScript&logoColor=white)](https://TypeScript.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![React Hook Form](https://img.shields.io/badge/React%20Hook%20Form-EC5990?style=flat)](https://react-hook-form.com/)
 [![Zod](https://img.shields.io/badge/Zod-000000?style=flat)](https://zod.dev/)
