@@ -1,4 +1,4 @@
-# Safarni – Travel App
+# Safarni-Tour Booking Platform
 
 [![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white)](https://reactjs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
@@ -11,7 +11,7 @@
 
 ## 🔵 Project Overview
 
-**Safarni** is a travel app that helps users explore destinations, manage bookings, and have a smooth travel experience.  
+**Safarni** is a Tour Booking Platform that helps users explore tours, manage bookings, and have a smooth travel experience.  
 It provides features like browsing places, booking services, and managing user accounts, all with an intuitive interface.
 
 ---
