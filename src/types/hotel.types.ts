@@ -1,25 +1,7 @@
 // src/types/hotel.types.ts
-export interface Hotel {
-  id: number;
-  name: string;
-  location: string;
-  image: string | null;
-  lat?: string;
-  lng?: string;
-  rating: number;
-  content_info?: string;
-  description?: string;
-  about?: string;
-  amenities: string[] | null;
-  gallery?: string[];
-  pricePerNight?: number;
-  rooms?: Room[];
-  discountPercentage?: number;
-  nights?: number;
-  taxesAndFees?: number;
-  phone?: string;
-  distance?: string;
-}
+
+import type { Hotel } from "@/services/hotelApi";
+
 
 export interface Room {
   id: number;

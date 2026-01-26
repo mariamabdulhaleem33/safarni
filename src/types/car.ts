@@ -1,4 +1,4 @@
-export type Transmission = "manual" | "automatic"
+export type Transmission = "Manual" | "Automatic"
 export type FuelType = "Diesel" | "Petrol" | "Electric"
 export interface Car{
     [x: string]: any;

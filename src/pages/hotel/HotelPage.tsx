@@ -3,19 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HotelCard from '@/components/hotel/HotelCard';
 import { hotelApi } from '@/services/hotelApi';
-import type { PaginationLinks } from '@/services/hotelApi';
+import type { Hotel, PaginationLinks } from '@/services/hotelApi';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { setCurrentHotel } from '@/store/slices/hotelSlice';
-
-interface Hotel {
-  id: number;
-  name: string;
-  location: string;
-  rating: number;
-  image: string | null;
-  content_info?: string;
-  pricePerNight?: number;
-}
 
 const normalizeRating = (rating: number) => {
   if (rating < 0) return 0;
@@ -70,7 +60,7 @@ const HotelPage: React.FC = () => {
       const response = await hotelApi.getByUrl(url);
       if (response.status !== 'success') throw new Error(response.message);
 
-      setHotels(formatHotels(response.data));
+      setHotels(formatHotels(response.data as Hotel[]));
       setLinks(response.links || null);
       setError(null);
     } catch (err: any) {

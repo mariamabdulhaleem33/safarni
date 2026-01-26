@@ -10,8 +10,6 @@ interface BookingSuccessProps {
 }
 
 const BookingSuccess: React.FC<BookingSuccessProps> = ({
-  hotelName,
-  onBack,
   onSubmit,
   isLoading = false
 }) => {

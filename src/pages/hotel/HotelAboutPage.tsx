@@ -39,6 +39,7 @@ const HotelAboutPage: React.FC = () => {
   } = useAppSelector((state) => state.hotel);
 
   const [showReviewForm, setShowReviewForm] = useState(false);
+  console.log(showReviewForm)
   const [showBooking, setShowBooking] = useState(false);
 
   const activeTab = tab;

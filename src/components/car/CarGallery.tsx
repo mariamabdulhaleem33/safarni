@@ -1,5 +1,4 @@
 import type { Car } from "@/types/car";
-import BackButton from "../backButton";
 
 interface CarGalleryProps {
   car: Car;

@@ -4,13 +4,13 @@ import { getSeatDetails } from "@/api/flight-booking/getSeatDetails";
 
 /* ================== Types ================== */
 
-type SeatStatus = "available" | "selected" | "booked";
+// type SeatStatus = "available" | "selected" | "booked";
 
 type Seat = {
   id: number;
   number: number;
   row: number;
-  status: SeatStatus;
+  status: string;
 };
 
 type Row = {

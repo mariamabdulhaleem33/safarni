@@ -5,19 +5,10 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { createHotelBooking } from "@/store/slices/hotelActions";
 import BookingSuccess from "./BookingSuccess";
-import { hotelApi } from "../../services/hotelApi";
+import { type Hotel } from "../../services/hotelApi";
 
 interface CheckInOutContentProps {
-  hotel: {
-    id: number ;
-    name: string;
-    location: string;
-    pricePerNight: number;
-    discountPercentage: number;
-    nights: number;
-    taxesAndFees: number;
-    rooms?: any[];
-  };
+  hotel: Hotel
   onBack: () => void;
 }
 
@@ -33,7 +24,7 @@ const CheckInOutForm: React.FC<CheckInOutContentProps> = ({ hotel, onBack }) => 
   const [availableCheckOutDates, setAvailableCheckOutDates] = useState<string[]>([]);
   const [isBookingConfirmed, setIsBookingConfirmed] = useState(false);
   const [apiStatus, setApiStatus] = useState<string>("");
-  const [showApiDebug, setShowApiDebug] = useState(false);
+  // const [showApiDebug, setShowApiDebug] = useState(false);
 
   useEffect(() => {
     const today = new Date();
@@ -64,16 +55,16 @@ const CheckInOutForm: React.FC<CheckInOutContentProps> = ({ hotel, onBack }) => 
     }
   }, []);
 
-  const checkAvailableAPIs = async () => {
-    setApiStatus("Checking available APIs...");
-    try {
-      const results = await hotelApi.checkBookingAPIs();
-      setApiStatus(`Available APIs: ${results.filter(r => r.exists).map(r => r.endpoint).join(', ') || 'None found'}`);
-      setShowApiDebug(true);
-    } catch (error) {
-      setApiStatus(`Error checking APIs`);
-    }
-  };
+  // const checkAvailableAPIs = async () => {
+  //   setApiStatus("Checking available APIs...");
+  //   try {
+  //     const results = await hotelApi.checkBookingAPIs();
+  //     setApiStatus(`Available APIs: ${results.filter(r => r.exists).map(r => r.endpoint).join(', ') || 'None found'}`);
+  //     setShowApiDebug(true);
+  //   } catch (error) {
+  //     setApiStatus(`Error checking APIs`);
+  //   }
+  // };
 
   const calculateTotalPrice = () => {
     const basePrice = hotel.pricePerNight * hotel.nights;

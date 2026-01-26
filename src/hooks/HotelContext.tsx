@@ -3,8 +3,8 @@ import React, { createContext, useContext, useCallback } from 'react';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { addReview, setHelpful, updateHotel } from '../store/slices/hotelSlice';
-import { hotelApi } from '../services/hotelApi';
-import type { Hotel, ReviewInput, Review } from '../types/hotel.types';
+import { hotelApi, type Hotel } from '../services/hotelApi';
+import type { ReviewInput, Review } from '../types/hotel.types';
 
 interface HotelContextType {
   hotel: Hotel | null;

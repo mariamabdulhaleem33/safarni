@@ -33,3 +33,11 @@ export type FlightsApiResponse = {
   message: string;
   data: FlightsSearchData;
 };
+
+export interface FlightSearchRequest {
+  passengers: number;
+  type: string;
+  from: string;
+  to: string;
+  departure_date: string;
+}

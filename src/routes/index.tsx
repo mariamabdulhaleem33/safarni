@@ -109,7 +109,18 @@ export default function AppRoutes() {
         <Route path="/cars/:id" element={<CarDetailsPage />} />
         <Route path="/cars/:id/pick-up" element={<PickUpPage />} />
         <Route path="/profile" element={<ProfileSettings />} />
-        <Route path="/personal-info" element={<PersonalInformation />} />
+        <Route
+          path="/personal-info"
+          element={
+            <PersonalInformation
+              profile={null}
+              loading={false}
+              uploadingImage={false}
+              onUpdate={async () => {}}
+              onImageUpload={async () => {}}
+            />
+          }
+        />
         <Route path="/security" element={<AccountSecurity />} />
       </Routes>
     </Provider>

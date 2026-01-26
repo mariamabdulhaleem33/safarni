@@ -31,7 +31,7 @@ const HotelReviews: React.FC<HotelReviewsProps> = ({
     },
   });
 
-  const handleHelpful = async (reviewId: number, currentHelpful: number) => {
+  const handleHelpful = async (reviewId: number) => {
     if (onHelpful) {
       await onHelpful(reviewId);
     }
@@ -145,7 +145,7 @@ const HotelReviews: React.FC<HotelReviewsProps> = ({
 
                 <div className="flex justify-between items-center">
                   <button
-                    onClick={() => handleHelpful(review.id, review.helpful)}
+                    onClick={() => handleHelpful(review.id)}
                     className="flex items-center text-sm text-gray-600 hover:text-blue-600 transition-colors"
                   >
                     <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

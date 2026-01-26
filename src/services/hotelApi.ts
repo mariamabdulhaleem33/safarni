@@ -1,5 +1,5 @@
 // src/services/hotelApi.ts
-const BASE_URL = 'https://round8-safarni-team-three.huma-volve.com/api';
+const BASE_URL = "https://round8-safarni-team-three.huma-volve.com/api";
 
 /* ========= Types ========= */
 
@@ -28,10 +28,10 @@ export interface Hotel {
   description?: string;
   amenities?: string[];
   gallery?: string[];
-  pricePerNight?: number;
-  discountPercentage?: number;
-  nights?: number;
-  taxesAndFees?: number;
+  pricePerNight: number | 0;
+  discountPercentage: number | 0;
+  nights: number | 0;
+  taxesAndFees: number | 0;
   rooms?: Array<{ id: number | string; name: string }>;
   phone?: string;
   distance?: string;
@@ -68,19 +68,18 @@ export const hotelApi = {
     request<Hotel>(`${BASE_URL}/hotel/${id}`),
 
   // Pagination using backend links (next / prev)
-  getByUrl: (url: string) =>
-    request(url),
+  getByUrl: (url: string) => request(url),
 
   addHotelReview: async (hotelId: string | number, reviewData: any) => {
     try {
       const response = await fetch(`${BASE_URL}/hotel/${hotelId}/reviews`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(reviewData),
       });
-      if (!response.ok) throw new Error('Failed to add review');
+      if (!response.ok) throw new Error("Failed to add review");
       return await response.json();
     } catch (error) {
       console.error("Error adding review:", error);
@@ -91,9 +90,9 @@ export const hotelApi = {
   markHelpful: async (reviewId: number) => {
     try {
       const response = await fetch(`${BASE_URL}/reviews/${reviewId}/helpful`, {
-        method: 'POST',
+        method: "POST",
       });
-      if (!response.ok) throw new Error('Failed to mark helpful');
+      if (!response.ok) throw new Error("Failed to mark helpful");
       return await response.json();
     } catch (error) {
       console.error("Error marking review as helpful:", error);
@@ -111,10 +110,10 @@ export const hotelApi = {
     comment?: string;
   }) => {
     const response = await fetch(`${BASE_URL}/hotel-bookings`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify(bookingData),
     });
@@ -122,7 +121,7 @@ export const hotelApi = {
     const data = await response.json();
 
     if (!response.ok) {
-      throw data; 
+      throw data;
     }
 
     return data;
@@ -130,26 +129,26 @@ export const hotelApi = {
 
   checkBookingAPIs: async () => {
     const endpoints = [
-      '/hotel-bookings',
-      '/hotel/bookings', 
-      '/bookings',
-      '/booking',
-      '/reservations'
+      "/hotel-bookings",
+      "/hotel/bookings",
+      "/bookings",
+      "/booking",
+      "/reservations",
     ];
 
     const results = [];
-    
+
     for (const endpoint of endpoints) {
       try {
         const response = await fetch(`${BASE_URL}${endpoint}`, {
-          method: 'OPTIONS',
+          method: "OPTIONS",
         });
-        
+
         results.push({
           endpoint,
           exists: response.ok,
           status: response.status,
-          statusText: response.statusText
+          statusText: response.statusText,
         });
       } catch (error) {
         results.push({
@@ -158,7 +157,7 @@ export const hotelApi = {
         });
       }
     }
-    
+
     return results;
-  }
+  },
 };

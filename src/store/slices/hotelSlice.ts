@@ -1,7 +1,8 @@
 // src/store/slices/hotelSlice.ts
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { HotelState, Hotel, Review, ReviewInput, BookingRequest } from '@/types/hotel.types';
+import type { HotelState, Review, ReviewInput, BookingRequest } from '@/types/hotel.types';
+import type { Hotel } from '@/services/hotelApi';
 
 const initialState: HotelState = {
   currentHotel: null,
