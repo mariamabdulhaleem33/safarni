@@ -59,7 +59,7 @@ I worked as a **Frontend Developer**, focusing mainly on the **Password Recovery
 ## 🔴 Live Demo
 
 Check the live project here:  
-🔗 [Safarni App](https://safarni-h5a4.vercel.app/)
+🔗 [Safarni App](https://safarni-murex.vercel.app/)
 
 ---
 
