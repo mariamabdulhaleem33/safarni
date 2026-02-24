@@ -1,10 +1,10 @@
+import { categories } from "@/api/categories";
 import { CategoryCard } from "./CategoryCard";
-import { useCategories } from "@/hooks/useCategories";
 import { getCategoryNavigationPath } from "@/utils/categoryImageMapper";
 import { useNavigate } from "react-router-dom";
 
 export const CategoriesSection = () => {
-  const { data: categories, isLoading, error } = useCategories();
+  
   const navigate = useNavigate();
 
   const handleCategoryClick = (key: string) => {
@@ -13,7 +13,7 @@ export const CategoriesSection = () => {
   };
 
   // Show loading state
-  if (isLoading) {
+  if (!categories) {
     return (
       <section className="w-full max-w-[1240px] flex flex-col min-h-[300px] sm:min-h-[350px] md:min-h-[407.94px] gap-6 sm:gap-8 md:gap-10 lg:gap-12 px-4 sm:px-6 md:px-8 lg:px-0">
         <div className="w-full h-auto min-h-[30px] sm:min-h-[35px] md:min-h-[38px]">
@@ -38,27 +38,6 @@ export const CategoriesSection = () => {
     );
   }
 
-  // Show error state
-  if (error) {
-    return (
-      <section className="w-full max-w-[1240px] flex flex-col min-h-[300px] sm:min-h-[350px] md:min-h-[407.94px] gap-6 sm:gap-8 md:gap-10 lg:gap-12 px-4 sm:px-6 md:px-8 lg:px-0">
-        <div className="w-full h-auto min-h-[30px] sm:min-h-[35px] md:min-h-[38px]">
-          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-[25px] leading-none font-medium font-poppins text-[var(--color-gray-900)]">
-            Categories
-          </h2>
-        </div>
-        <div className="text-center text-gray-500 py-8">
-          Failed to load categories. Please try again later.
-        </div>
-      </section>
-    );
-  }
-
-  // If no categories, return null or empty state
-  if (!categories || categories.length === 0) {
-    return null;
-  }
-
   return (
     <section className="w-full max-w-[1240px] flex flex-col min-h-[300px] sm:min-h-[350px] md:min-h-[407.94px] gap-6 sm:gap-8 md:gap-10 lg:gap-12 px-4 sm:px-6 md:px-8 lg:px-0">
       {/* Title */}
@@ -74,8 +53,8 @@ export const CategoriesSection = () => {
           <CategoryCard
             key={category.id}
             image={category.image}
-            label={category.key.charAt(0).toUpperCase() + category.key.slice(1)}
-            onClick={() => handleCategoryClick(category.key)}
+            label={category.title}
+            onClick={() => handleCategoryClick(category.id)}
           />
         ))}
       </div>
