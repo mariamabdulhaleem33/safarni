@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { newPassSchema } from "@/lib/schemas/passwordManage.schemas";
 import PasswordInput from "./PasswordInput";
-import { InputGroupButton } from "../../ui/input-group";
 import { confirmPasswordReset, getAuth } from "firebase/auth";
 import { toast } from "sonner";
 import { useSearchParams, useNavigate } from "react-router-dom";
