@@ -4,8 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { newPassSchema } from "@/lib/schemas/passwordManage.schemas";
 import PasswordInput from "./PasswordInput";
 import { InputGroupButton } from "../../ui/input-group";
-import { getAuth, updatePassword } from "firebase/auth";
+import { confirmPasswordReset, getAuth } from "firebase/auth";
 import { toast } from "sonner";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import AuthButton from "../AuthButton";
 
 interface FormData {
   password: string;
@@ -14,27 +16,31 @@ interface FormData {
 
 const ResetPasswordForm: FC = () => {
   const auth = getAuth();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const oobCode = searchParams.get("oobCode");
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
   } = useForm<FormData>({
     resolver: zodResolver(newPassSchema),
   });
 
   const onSubmit = async (data: FormData) => {
-    if (auth.currentUser) {
-      try {
-        await updatePassword(auth.currentUser, data.password);
-        toast.success("Password reset successfully!");
-        reset();
-      } catch {
-        toast.error("Failed to reset password.");
-      }
-    } else {
-      toast.error("User not signed in. Retry forgot password.");
+    if (!oobCode) {
+      toast.error("Invalid or expired reset link");
+      return;
+    }
+
+    try {
+      await confirmPasswordReset(auth, oobCode, data.password);
+      toast.success("Password reset successfully");
+      navigate("/auth/success");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to reset password");
     }
   };
 
@@ -48,21 +54,21 @@ const ResetPasswordForm: FC = () => {
         error={errors.password && <p>{errors.password.message}</p>}
         isSubmitting={isSubmitting}
       />
+
       <PasswordInput
         label="Confirm Password"
         type="password"
         placeholder="Confirm new password"
         register={register("password_confirmation")}
-        error={errors.password_confirmation && <p>{errors.password_confirmation.message}</p>}
+        error={errors.password_confirmation && (
+          <p>{errors.password_confirmation.message}</p>
+        )}
         isSubmitting={isSubmitting}
       />
-      <InputGroupButton
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full h-10 lg:h-12 bg-blue-800 text-white font-semibold rounded-sm hover:bg-blue-900"
-      >
+
+      <AuthButton className="auth-button bg-[#1E429F] text-white hover:bg-[#163585] mb-6" disabled={isSubmitting}>
         {isSubmitting ? "Processing..." : "Reset Password"}
-      </InputGroupButton>
+      </AuthButton>
     </form>
   );
 };

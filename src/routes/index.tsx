@@ -78,7 +78,7 @@ export default function AppRoutes() {
           <Route index element={<Navigate to="forgot-password" replace />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="otp-verify" element={<OTPVerification />} />
-          <Route path="new-password" element={<NewPassword />} />
+          <Route path="reset-password" element={<NewPassword />} />
           <Route path="success" element={<Success />} />
         </Route>
         <Route path="/flight-booking" element={<FlightBooking />} />
