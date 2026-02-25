@@ -50,8 +50,8 @@ const OTPForm: FC<Props> = () => {
   }
 
   return (
-    <div className="flex flex-col gap-4 w-full">
-      <Button onClick={checkVerification} disabled={loading}>
+    <div className="flex items-center flex-col gap-4 w-full">
+      <Button className="w-[90%] bg-blue-800" onClick={checkVerification} disabled={loading}>
         {loading ? (
           <>
             Checking <Loader2 className="animate-spin" />
