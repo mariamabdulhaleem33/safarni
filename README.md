@@ -15,6 +15,9 @@
 **Safarni** is a Tour Booking Platform that helps users explore tours, manage flight and hotel bookings, rent cars, and have a smooth travel experience.  
 It provides features like browsing places, booking services, and managing user accounts, all with an intuitive interface.
 
+> ⚠️ **Note:** For authentication and password recovery flows, **Firebase Authentication** was used instead of a backend API.  
+> When the backend server was unavailable, **dummy data** was used to simulate responses and ensure functionality.
+
 ---
 
 ## 🟢 My Contribution (Frontend Focus)
@@ -27,6 +30,8 @@ I worked as a **Frontend Developer**, focusing mainly on the **Password Recovery
 - ✅ Implemented form validation and input feedback using **React Hook Form** and **Zod**  
 - ✅ Used **shadcn/ui** components for consistent styling  
 - ✅ Managed asynchronous state and API interactions using **TanStack Query**  
+- ✅ Integrated **Firebase Authentication** to handle sign-up, login, and password recovery flows  
+- ✅ Used **dummy data** as a temporary backend replacement when the server was unavailable  
 - ✅ Designed responsive and user-friendly UI for all screens  
 
 ---
@@ -40,6 +45,7 @@ I worked as a **Frontend Developer**, focusing mainly on the **Password Recovery
 - **Zod**  
 - **TanStack Query**  
 - **shadcn/ui**  
+- **Firebase Authentication**  
 
 ---
 
@@ -60,10 +66,3 @@ I worked as a **Frontend Developer**, focusing mainly on the **Password Recovery
 
 Check the live project here:  
 🔗 [Safarni App](https://safarni-murex.vercel.app/)
-
----
-
-## 📌 Testing Hint
-
-For testing OTP functionality, use:  
-`1234`
