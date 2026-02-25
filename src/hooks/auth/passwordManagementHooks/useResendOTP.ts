@@ -1,28 +1,28 @@
 import { useMutation } from "@tanstack/react-query";
-import { ForgotPassAPI } from "@/services/passwordMamagementServices/forgot-password.api";
-import { AxiosError } from "axios";
-import type { ForgotPassResponse } from "@/types/passwordManagement.types";
+import { auth } from "@/firebase/firebase";
+import { sendSignInLinkToEmail } from "firebase/auth";
 import { toast } from "sonner";
 
-interface ApiError {
-  message: string;
+interface ResendProps {
+  email: string;
 }
 
+const actionCodeSettings = {
+  url: `${window.location.origin}/auth/verify-email`, 
+  handleCodeInApp: true,
+};
+
 export const useResendOTP = () => {
-  return useMutation<
-    ForgotPassResponse,
-    AxiosError<ApiError>,
-    { email: string }
-  >({
-    mutationFn: ForgotPassAPI,
-
-    onSuccess: () => {
-      toast.success("OTP sent again to your email");
+  return useMutation<void, Error, ResendProps>({
+    mutationFn: async ({ email }) => {
+      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+      localStorage.setItem("emailForSignIn", email);
     },
-
-    onError: (error) => {
-      const message = error.response?.data?.message || "Failed to resend OTP";
-      toast.error(message);
+    onSuccess: () => {
+      toast.success("OTP sent to your email!");
+    },
+    onError: (error: any) => {
+      toast.error(error.message || "Failed to send OTP");
     },
   });
 };

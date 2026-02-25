@@ -1,22 +1,38 @@
-import api from "@/api/axios"
-import type { LoginFormType } from "@/schemas/loginSchema"
-import type { SignupFormType } from "@/schemas/signupSchema"
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "@/firebase/firebase";
+import type { SignupFormType } from "@/schemas/signupSchema";
+import type { LoginFormType } from "@/schemas/loginSchema";
 
-export const signup = async (data: SignupFormType) => {
-  const response = await api.post("register", {
-    full_name: data.name,
-    email: data.email,
-    password: data.password,
-    password_confirmation: data.password_confirmation,
-  })
-  console.log(response.data)
-  return response.data
-}
+export const firebaseSignup = async (data: SignupFormType) => {
+  const userCredential = await createUserWithEmailAndPassword(
+    auth,
+    data.email,
+    data.password,
+  );
+
+  await updateProfile(userCredential.user, {
+    displayName: data.name,
+  });
+
+  await sendEmailVerification(userCredential.user);
+
+  return {
+    uid: userCredential.user.uid,
+    email: userCredential.user.email,
+  };
+};
+
 export const login = async (data: LoginFormType) => {
-  const response = await api.post("login", {
-    email: data.email,
-    password: data.password,
-  })
-  console.log(response.data)
-  return response.data
-}
+  const userCredential = await signInWithEmailAndPassword(
+    auth,
+    data.email,
+    data.password,
+  );
+
+  return userCredential.user;
+};

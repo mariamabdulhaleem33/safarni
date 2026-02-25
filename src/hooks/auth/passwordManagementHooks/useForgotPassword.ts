@@ -1,42 +1,28 @@
 import { useMutation } from "@tanstack/react-query";
-
-import {
-  type ForgotPassFormData,
-  type ForgotPassResponse,
-} from "@/types/passwordManagement.types";
-import { AxiosError } from "axios";
-import { ForgotPassAPI } from "@/services/passwordMamagementServices/forgot-password.api";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { auth } from "@/firebase/firebase";
+import { sendSignInLinkToEmail } from "firebase/auth";
 
-interface ApiError {
-  message: string;
+interface ResendProps {
+  email: string;
 }
 
+const actionCodeSettings = {
+  url: window.location.origin + "/auth/reset-password",
+  handleCodeInApp: true,
+};
+
 export const useForgotPassword = () => {
-  const navigate = useNavigate();
-
-  return useMutation<
-    ForgotPassResponse,
-    AxiosError<ApiError>,
-    ForgotPassFormData
-  >({
-    mutationFn: ForgotPassAPI,
-
-    onSuccess: (_data, variables) => {
-      toast.success("OTP verified successfully!");
-      navigate("/auth/new-password", {
-        state: {
-          email: variables.email,
-          id: _data.data.user_id,
-          otp:"1234"
-        },
-      });
+  return useMutation<void, Error, ResendProps>({
+    mutationFn: async ({ email }) => {
+      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+      window.localStorage.setItem("emailForSignIn", email);
     },
-
-    onError: (error) => {
-      const message = error.response?.data?.message || "Something went wrong";
-      toast.error(message);
+    onSuccess: () => {
+      toast.success("Reset password link sent to your email!");
+    },
+    onError: (error: any) => {
+      toast.error(error.message || "Failed to send reset link");
     },
   });
 };

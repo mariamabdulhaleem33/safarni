@@ -1,36 +1,24 @@
+
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { type LoginFormType, loginSchema } from "@/schemas/loginSchema"
-import { HiOutlineLockClosed, HiOutlineMail } from "react-icons/hi"
-import React from "react"
-import { login } from "@/services/auth.service"
+import { loginSchema, type LoginFormType } from "@/schemas/loginSchema"
 import { useMutation } from "@tanstack/react-query"
-// import { useLocation, useNavigate } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
-import type { AxiosError } from "axios"
 import toast from "react-hot-toast"
+import { login } from "@/services/auth.service"
+import type { User } from "firebase/auth"
+import React from "react"
+import { HiOutlineMail, HiOutlineLockClosed } from "react-icons/hi"
 
 export const useLogin = () => {
-  // const location = useLocation()
-  // continue redirect logic later
-  // const from = location.state?.from?.pathname || "/"
   const navigate = useNavigate()
-  type LoginErrorResponse = {
-    message: string
-    errors: serverErrors
-  }
-  type serverErrors = {
-    [key: string]: string[]
-  }
 
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors },
   } = useForm<LoginFormType>({
     resolver: zodResolver(loginSchema),
-    mode: "onTouched",
   })
 
   const ICON_STYLE = "text-gray-500 text-lg"
@@ -40,7 +28,7 @@ export const useLogin = () => {
       id: "email",
       label: "Email",
       type: "email",
-      placeholder: "kneeDue@untitledui.com",
+      placeholder: "example@email.com",
       register: register("email"),
       error: errors.email,
       icon: React.createElement(HiOutlineMail, { className: ICON_STYLE }),
@@ -49,39 +37,42 @@ export const useLogin = () => {
       id: "password",
       label: "Password",
       type: "password",
-      placeholder: "************",
+      placeholder: "********",
       register: register("password"),
       error: errors.password,
-      icon: React.createElement(HiOutlineLockClosed, { className: ICON_STYLE }),
+      icon: React.createElement(HiOutlineLockClosed, {
+        className: ICON_STYLE,
+      }),
     },
   ]
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending } = useMutation<User, Error, LoginFormType>({
     mutationFn: login,
-    onSuccess: (response) => {
-      localStorage.setItem("authToken", response?.data?.token)
-      localStorage.setItem("userData", JSON.stringify(response?.data?.user))
-      console.log("data is fetched", response)
+    onSuccess: async (user) => {
+      if (!user.emailVerified) {
+        toast.error("Please verify your email first")
+        return
+      }
 
-      if (response) {
-        navigate("/")
-      }
-      toast.success(response?.data?.message)
-    },
-    onError: (error: AxiosError<LoginErrorResponse>) => {
-      console.log(error)
-      const serverErrors = error?.response?.data?.errors
-      if (serverErrors) {
-        Object.keys(serverErrors).forEach((key) => {
-          setError(key as keyof LoginFormType, {
-            message: serverErrors[key][0],
-          })
+      const token = await user.getIdToken()
+      localStorage.setItem("Token", token)
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          uid: user.uid,
+          email: user.email,
         })
-      }
+      )
+
+      toast.success("Logged in successfully")
+      navigate("/")
+    },
+    onError: (error) => {
+      toast.error(error.message)
     },
   })
+
   const onSubmit = (data: LoginFormType) => {
-    console.log("onSubmit called", data)
     mutate(data)
   }
 

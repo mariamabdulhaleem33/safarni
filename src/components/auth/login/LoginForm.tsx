@@ -17,7 +17,6 @@ const LoginForm = () => {
           <AuthHeading className="text-[28px]">Welcome Again</AuthHeading>
           <AuthDesc>welcome back! please fill your Data</AuthDesc>
         </div>
-        {/* Login Form */}
         <form onSubmit={handleSubmit(onSubmit)}>
           {inputs.map((input) => (
             <AuthInput

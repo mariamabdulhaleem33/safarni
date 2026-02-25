@@ -1,47 +1,101 @@
-import Logo from "@/components/ui/Logo";
-import OTPVerifyImg from "@/assets/OTPVerifyImg.png";
-import type { FC } from "react";
-import { Mail } from "lucide-react";
-import OTPForm from "@/components/auth/passwordManagementComp/OTPForm";
-import { Navigate, useLocation } from "react-router-dom";
-import BackButton from "@/components/backButton";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signupSchema, type SignupFormType } from "@/schemas/signupSchema";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { firebaseSignup } from "@/services/auth.service";
+import React from "react";
+import { HiOutlineLockClosed, HiOutlineMail } from "react-icons/hi";
+import { IoPersonOutline } from "react-icons/io5";
 
-const OTPVerification: FC = () => {
-  const location = useLocation();
-  const email = location.state.email; 
-  const user_id = location.state.id;
-  if (!email || !user_id) {
-    return <Navigate to="/auth/forgot-password" replace />;
-  }
+export const useSignup = () => {
+  const navigate = useNavigate();
 
-  return (
-    <div className="auth-component-layout">
-      <Logo style="lg:self-end" />
-      <div className="auth-content-layout">
-        <div className="hidden md:w-1/2 md:flex flex-col justify-center gap-2">
-          <BackButton />
-          <img
-            src={OTPVerifyImg}
-            className="w-full self-start object-contain"
-          />
-        </div>
-        <div className="w-full px-3 md:px-12.5 flex flex-col items-center gap-3 lg:gap-6 md:w-1/2">
-          <Mail size={28} color="#AFAFAF" />
-          <div className="flex flex-col items-center gap-4">
-            <h4 className="text-gray-900 text-xl lg:text-3xl font-medium text-center">
-              Verify Code
-            </h4>
-            <p className="text-gray-500 text-sm lg:text-lg text-center">
-              Please enter the code we just sent to email
-            </p>
-            <p className="text-gray-900 text-sm lg:text-lg font-medium">
-              {email}
-            </p>
-          </div>
-          <OTPForm user_id={user_id} email={email}/>
-        </div>
-      </div>
-    </div>
-  );
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignupFormType>({
+    resolver: zodResolver(signupSchema),
+    mode: "onTouched",
+  });
+
+  const passwordValue = watch("password", "");
+  const hasPasswordError = !!errors.password;
+  const ICON_STYLE = "text-gray-500 text-lg";
+
+  const inputs = [
+    {
+      id: "name",
+      label: "Name",
+      type: "text",
+      placeholder: "Hussain Abdelkawy",
+      register: register("name"),
+      error: errors.name,
+      icon: React.createElement(IoPersonOutline, { className: ICON_STYLE }),
+    },
+    {
+      id: "email",
+      label: "Email",
+      type: "email",
+      placeholder: "example@email.com",
+      register: register("email"),
+      error: errors.email,
+      icon: React.createElement(HiOutlineMail, { className: ICON_STYLE }),
+    },
+    {
+      id: "password",
+      label: "Password",
+      type: "password",
+      placeholder: "********",
+      register: register("password"),
+      error: errors.password,
+      icon: React.createElement(HiOutlineLockClosed, {
+        className: ICON_STYLE,
+      }),
+    },
+    {
+      id: "password_confirmation",
+      label: "Confirm Password",
+      type: "password",
+      placeholder: "********",
+      register: register("password_confirmation"),
+      error: errors.password_confirmation,
+      icon: React.createElement(HiOutlineLockClosed, {
+        className: ICON_STYLE,
+      }),
+    },
+  ];
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: firebaseSignup,
+    onSuccess: (data, variables) => {
+      toast.success("Verification email sent");
+
+      navigate("/auth/otp-verify", {
+        state: {
+          uid: data.uid,
+          email: variables.email,
+        },
+      });
+    },
+    onError: (error: any) => {
+      toast.error(error.message || "Signup failed");
+    },
+  });
+
+  const onSubmit = (data: SignupFormType) => {
+    mutate(data);
+  };
+
+  return {
+    handleSubmit,
+    onSubmit,
+    inputs,
+    hasPasswordError,
+    passwordValue,
+    isPending,
+  };
 };
-export default OTPVerification;

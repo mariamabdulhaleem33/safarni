@@ -31,8 +31,9 @@ import CompareToursPage from "@/pages/compare/CompareToursPage";
 import Search from "@/pages/Search/Search";
 import { PersonalInformation } from "@/components/profile";
 import { AccountSecurity } from "@/components/profile/AccountSecurity";
-import NewPassword from "@/pages/auth/passwordManagementPages/NewPassword";
+import NewPassword from "@/pages/auth/passwordManagementPages/ResetPasswordPage";
 import Success from "@/pages/auth/passwordManagementPages/Success";
+import VerifyEmailPage from "@/pages/auth/verifyEmailPage";
 export default function AppRoutes() {
   return (
     <Provider store={store}>
@@ -104,6 +105,7 @@ export default function AppRoutes() {
           }
         />
         <Route path="/security" element={<AccountSecurity />} />
+        <Route path="/auth/verify-email" element={<VerifyEmailPage />} />
       </Routes>
     </Provider>
   );

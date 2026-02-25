@@ -1,101 +1,75 @@
-import type { FC } from "react";
-import OTPInput from "../../ui/OTPInput";
-import { Button } from "../../ui/button";
-import { useOTPTimer } from "@/hooks/auth/passwordManagementHooks/useOTPTimer";
-import { otpSchema } from "@/lib/schemas/passwordManage.schemas";
-import { type OTPFormValues } from "@/types/passwordManagement.types";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useOTPVerify } from "@/hooks/auth/passwordManagementHooks/useOTPVerify";
-import { Loader2 } from "lucide-react";
-import { useResendOTP } from "@/hooks/auth/passwordManagementHooks/useResendOTP";
 
-type OTPFormProps = {
-  user_id: number;
-  email: string;
-};
+import { useState, type FC } from "react"
+import { Button } from "../../ui/button"
+import { toast } from "sonner"
+import { Loader2 } from "lucide-react"
+import { auth } from "@/firebase/firebase"
+import { sendEmailVerification } from "firebase/auth"
+import { useNavigate } from "react-router-dom"
 
-const OTPForm: FC<OTPFormProps> = ({ user_id, email }) => {
-  const { isRunning, seconds, resend } = useOTPTimer();
-  const { mutate, isPending } = useOTPVerify();
-  const { mutate: resendOTP, isPending: isResending } = useResendOTP();
-  const {
-    control,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<OTPFormValues>({
-    resolver: zodResolver(otpSchema),
-    defaultValues: {
-      otp: "",
-    },
-  });
+type Props = {
+  email: string
+}
 
-  const handleClick = () => {
-    resendOTP({ email });
-    resend();
-  };
+const OTPForm: FC<Props> = () => {
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
+  const [resending, setResending] = useState(false)
 
-  const onSubmit = (data: OTPFormValues) => {
-    mutate({
-      ...data,
-      user_id,
-    });
-    reset();
-  };
+  const checkVerification = async () => {
+    setLoading(true)
+    try {
+      if (!auth.currentUser) throw new Error("User not found")
+
+      await auth.currentUser.reload()
+
+      if (auth.currentUser.emailVerified) {
+        toast.success("Email verified successfully")
+        navigate("/auth/login")
+      } else {
+        toast.error("Email not verified yet")
+      }
+    } catch (e: any) {
+      toast.error(e.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const resendEmail = async () => {
+    if (!auth.currentUser) return
+    setResending(true)
+    try {
+      await sendEmailVerification(auth.currentUser)
+      toast.success("Verification email resent")
+    } catch (e: any) {
+      toast.error(e.message)
+    } finally {
+      setResending(false)
+    }
+  }
+
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col  gap-2 lg:gap-4 items-center w-full"
-    >
-      <p className="text-gray-900 text-lg lg:text-2xl font-medium">
-        {isRunning ? `00:${seconds}` : "00:00"}
-      </p>
-      <Controller
-        name="otp"
-        control={control}
-        render={({ field }) => (
-          <OTPInput value={field.value} onChange={field.onChange} />
-        )}
-      />
-      {errors.otp && (
-        <p className="text-red-500 text-sm md:text-md lg:text-lg">
-          {errors.otp.message}
-        </p>
-      )}
-      <p className="text-sm lg:text-lg">
-        OTP not receive?{" "}
-        <button
-          onClick={handleClick}
-          disabled={isRunning || isResending}
-          className={`${
-            isRunning || isResending
-              ? "cursor-not-allowed"
-              : "text-blue-800 cursor-pointer"
-          } underline`}
-        >
-          send again
-        </button>
-      </p>
-      <Button
-        type="submit"
-        disabled={isPending || isResending}
-        className="w-full h-10 lg:h-12 rounded-sm text-md lg:text-xl font-semibold bg-blue-800 text-white cursor-pointer hover:text-white hover:bg-blue-900"
-      >
-        {isPending ? (
+    <div className="flex flex-col gap-4 w-full">
+      <Button onClick={checkVerification} disabled={loading}>
+        {loading ? (
           <>
-            Verifying
-            <Loader2 className="animate-spin" />
-          </>
-        ) : isResending ? (
-          <>
-            Resending <Loader2 className="animate-spin" />{" "}
+            Checking <Loader2 className="animate-spin" />
           </>
         ) : (
-          "Verify"
+          "I have verified my email"
         )}
       </Button>
-    </form>
-  );
-};
-export default OTPForm;
+
+      <button
+        onClick={resendEmail}
+        disabled={resending}
+        className="underline text-blue-800"
+      >
+        {resending ? "Resending..." : "Resend email"}
+      </button>
+    </div>
+  )
+}
+
+export default OTPForm

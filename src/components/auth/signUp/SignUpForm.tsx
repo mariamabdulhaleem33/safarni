@@ -17,7 +17,6 @@ export default function SignUpForm() {
     passwordValue,
     isPending,
   } = useSignup()
-  console.log("SignUpForm rendered")
   return (
     <div className="flex items-center justify-center">
       <div className="w-full max-w-md bg-white text-left">
@@ -25,7 +24,6 @@ export default function SignUpForm() {
           <AuthHeading className="text-[28px]">Welcome Again</AuthHeading>
           <AuthDesc>welcome back! please fill your Data</AuthDesc>
         </div>
-        {/* Sign Form */}
         <form onSubmit={handleSubmit(onSubmit)}>
           {inputs.map((input) => (
             <AuthInput

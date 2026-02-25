@@ -25,7 +25,7 @@ export const Navbar = ({
 
   const handleUserClick = () => {
     onUserClick?.();
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("Token");
     navigate(token ? "/profile" : "/auth/login");
   };
 

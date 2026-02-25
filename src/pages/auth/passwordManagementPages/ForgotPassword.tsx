@@ -3,7 +3,6 @@ import forgotPassImg from "@/assets/forgotPassImg.png";
 import type { FC } from "react";
 import { KeyRound } from "lucide-react";
 import ForgotPassForm from "@/components/auth/passwordManagementComp/ForgotPassForm";
-
 import BackButton from "@/components/backButton";
 
 const ForgotPassword: FC = () => {
@@ -35,4 +34,5 @@ const ForgotPassword: FC = () => {
     </div>
   );
 };
+
 export default ForgotPassword;

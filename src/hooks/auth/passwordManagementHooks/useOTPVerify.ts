@@ -1,37 +1,32 @@
 import { useMutation } from "@tanstack/react-query";
-
-import {
-  type OTPFormValues,
-  type OTPResponse,
-} from "@/types/passwordManagement.types";
-import { AxiosError } from "axios";
-import { useNavigate } from "react-router-dom";
+import { auth } from "@/firebase/firebase";
+import { signInWithEmailLink } from "firebase/auth";
 import { toast } from "sonner";
-import { OTPVerifyAPI } from "@/services/passwordMamagementServices/verify-otp.api";
+import { useNavigate } from "react-router-dom";
 
-interface ApiError {
-  errors: string;
+interface OTPFormValues {
+  otp: string;
+  email: string;
 }
 
 export const useOTPVerify = () => {
   const navigate = useNavigate();
 
-  return useMutation<OTPResponse, AxiosError<ApiError>, OTPFormValues>({
-    mutationFn: OTPVerifyAPI,
-
-    onSuccess: (_data, variables) => {
-      toast.success("OTP Verified Successfully");
-      navigate("/auth/login", {
-        state: {
-          id: _data.user_id,
-          otp: variables.otp,
-        },
-      });
+  return useMutation<void, Error, OTPFormValues>({
+    mutationFn: async ({ email}) => {
+      if (!signInWithEmailLink(auth, window.location.href)) {
+        throw new Error("Invalid verification link");
+      }
+      await signInWithEmailLink(auth, email, window.location.href);
     },
 
-    onError: (error) => {
-      const message = error.response?.data?.errors || "Something went wrong";
-      toast.error(message);
+    onSuccess: () => {
+      toast.success("OTP Verified Successfully");
+      navigate("/auth/verify-email");
+    },
+
+    onError: (error: any) => {
+      toast.error(error.message || "OTP verification failed");
     },
   });
 };
