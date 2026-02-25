@@ -1,101 +1,38 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signupSchema, type SignupFormType } from "@/schemas/signupSchema";
-import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import { firebaseSignup } from "@/services/auth.service";
-import React from "react";
-import { HiOutlineLockClosed, HiOutlineMail } from "react-icons/hi";
-import { IoPersonOutline } from "react-icons/io5";
 
-export const useSignup = () => {
-  const navigate = useNavigate();
+import Logo from "@/components/ui/Logo"
+import OTPVerifyImg from "@/assets/OTPVerifyImg.png"
+import { Mail } from "lucide-react"
+import OTPForm from "@/components/auth/passwordManagementComp/OTPForm"
+import { Navigate, useLocation } from "react-router-dom"
+import BackButton from "@/components/backButton"
 
-  const {
-    register,
-    watch,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SignupFormType>({
-    resolver: zodResolver(signupSchema),
-    mode: "onTouched",
-  });
+const OTPVerification = () => {
+  const location = useLocation()
+  const email = location.state?.email
+  const uid = location.state?.uid
 
-  const passwordValue = watch("password", "");
-  const hasPasswordError = !!errors.password;
-  const ICON_STYLE = "text-gray-500 text-lg";
+  if (!email || !uid) {
+    return <Navigate to="/auth/signup" replace />
+  }
 
-  const inputs = [
-    {
-      id: "name",
-      label: "Name",
-      type: "text",
-      placeholder: "Hussain Abdelkawy",
-      register: register("name"),
-      error: errors.name,
-      icon: React.createElement(IoPersonOutline, { className: ICON_STYLE }),
-    },
-    {
-      id: "email",
-      label: "Email",
-      type: "email",
-      placeholder: "example@email.com",
-      register: register("email"),
-      error: errors.email,
-      icon: React.createElement(HiOutlineMail, { className: ICON_STYLE }),
-    },
-    {
-      id: "password",
-      label: "Password",
-      type: "password",
-      placeholder: "********",
-      register: register("password"),
-      error: errors.password,
-      icon: React.createElement(HiOutlineLockClosed, {
-        className: ICON_STYLE,
-      }),
-    },
-    {
-      id: "password_confirmation",
-      label: "Confirm Password",
-      type: "password",
-      placeholder: "********",
-      register: register("password_confirmation"),
-      error: errors.password_confirmation,
-      icon: React.createElement(HiOutlineLockClosed, {
-        className: ICON_STYLE,
-      }),
-    },
-  ];
+  return (
+    <div className="auth-component-layout">
+      <Logo style="lg:self-end" />
+      <div className="auth-content-layout">
+        <div className="hidden md:flex md:w-1/2 flex-col gap-2">
+          <BackButton />
+          <img src={OTPVerifyImg} className="object-contain" />
+        </div>
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: firebaseSignup,
-    onSuccess: (data, variables) => {
-      toast.success("Verification email sent");
+        <div className="md:w-1/2 w-full flex flex-col items-center gap-6">
+          <Mail size={28} color="#AFAFAF" />
+          <h4 className="text-xl lg:text-3xl font-medium">Verify Email</h4>
+          <p className="text-gray-500">{email}</p>
+          <OTPForm email={email} />
+        </div>
+      </div>
+    </div>
+  )
+}
 
-      navigate("/auth/otp-verify", {
-        state: {
-          uid: data.uid,
-          email: variables.email,
-        },
-      });
-    },
-    onError: (error: any) => {
-      toast.error(error.message || "Signup failed");
-    },
-  });
-
-  const onSubmit = (data: SignupFormType) => {
-    mutate(data);
-  };
-
-  return {
-    handleSubmit,
-    onSubmit,
-    inputs,
-    hasPasswordError,
-    passwordValue,
-    isPending,
-  };
-};
+export default OTPVerification

@@ -74,7 +74,7 @@ export const useSignup = () => {
     mutationFn: firebaseSignup,
     onSuccess: (data, variables) => {
       toast.success("Verification email sent")
-
+      localStorage.setItem("EmailForSignIn", variables.email);
       navigate("/auth/otp-verify", {
         state: {
           uid: data.uid,

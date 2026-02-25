@@ -70,12 +70,11 @@ export const NavbarActions = ({
 }: NavbarActionsProps) => {
   const navigate = useNavigate();
   const { loading, avatarUrl } = useUserProfile();
-  console.log("avatarUrl", avatarUrl);
 
   const handleUserClick = () => {
     onUserClick?.();
 
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("Token");
     navigate(token ? "/profile" : "/auth/login");
   };
 

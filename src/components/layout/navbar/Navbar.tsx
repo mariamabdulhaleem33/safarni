@@ -24,8 +24,10 @@ export const Navbar = ({
   const { loading, avatarUrl } = useUserProfile();
 
   const handleUserClick = () => {
+    console.log("User icon clicked");
     onUserClick?.();
     const token = localStorage.getItem("Token");
+    console.log("Token in Navbar:", token);
     navigate(token ? "/profile" : "/auth/login");
   };
 

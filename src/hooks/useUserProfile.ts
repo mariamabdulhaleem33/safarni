@@ -245,7 +245,7 @@ export const useUserProfile = (
   const [error, setError] = useState<string | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
 
-  const getToken = (): string | null => localStorage.getItem("authToken");
+  const getToken = (): string | null => localStorage.getItem("Token");
 
   const isAuthenticated = !!getToken();
 
