@@ -8,13 +8,14 @@ declare global {
   }
 }
 
+
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  apiKey: "AIzaSyDqmsO1UECJZu-jQx5CQt3yIXwPQiJ1Z4o",
+  authDomain: "safarni-auth-ad50c.firebaseapp.com",
+  projectId: "safarni-auth-ad50c",
+  storageBucket: "safarni-auth-ad50c.firebasestorage.app",
+  messagingSenderId: "833931144458",
+  appId: "1:833931144458:web:874cfa1fefe0b94df15ef3"
 };
 
 const app = initializeApp(firebaseConfig);
