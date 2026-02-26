@@ -12,7 +12,9 @@ export const useForgotPassword = () => {
     mutationFn: async ({ email }) => {
       await sendPasswordResetEmail(auth, email, {
         url: `${window.location.origin}/auth/reset-password`,
+        handleCodeInApp: true,
       });
+      console.log(`${window.location.origin}/auth/reset-password`);
     },
     onSuccess: () => {
       toast.success("Reset password link sent to your email");
