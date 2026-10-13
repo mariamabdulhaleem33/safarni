@@ -11,7 +11,7 @@ export const useForgotPassword = () => {
   return useMutation<void, Error, ForgotPasswordData>({
     mutationFn: async ({ email }) => {
       await sendPasswordResetEmail(auth, email, {
-        url: `${window.location.origin}/auth/reset-password`,
+        url: `${window.location.origin}/auth/success`,
         handleCodeInApp: true,
       });
       console.log(`${window.location.origin}/auth/reset-password`);
